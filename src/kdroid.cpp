@@ -133,7 +133,6 @@ void KDroid::sendSMS ( SMSMessage message )
 {
     Packet packet = Packet ( message );
     m_port->send ( packet );
-    m_smslist->addSMS ( message ); //TODO: Let the android app return the sms if send succesfull
 }
 
 void KDroid::SMSSend()
