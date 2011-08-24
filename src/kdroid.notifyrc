@@ -1,0 +1,21 @@
+[Global]
+IconName=kdroid
+Comment=KDroid
+
+
+[Event/newMessage]
+Name=New Message
+Action=Popup
+
+[Event/sendMessage]
+Name=Text Message send
+Action=Popup
+
+[Event/syncComplete]
+Name=Sync complete
+Action=Popup
+
+[Event/noConnection]
+Name=Phone unreachable
+Action=Popup
+

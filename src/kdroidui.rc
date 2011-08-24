@@ -1,0 +1,17 @@
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
+<kpartgui name="kdroid" version="1">
+<ToolBar name="mainToolBar" >
+  <text>Main Toolbar</text>
+  <Action name="sync_action" />
+</ToolBar>
+<MenuBar>
+  <Menu name="file"><text>File</text>
+        <Menu name="export"><text>Export as..</text>
+            <Action name="xml_export" />
+        </Menu>
+  </Menu>
+  <Menu name="view"><text>View</text>
+    <Action name="showsendview" />
+  </Menu>
+</MenuBar>
+</kpartgui>

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=KDroid
+Exec=kdroid %i -caption "%c"
+Icon=pda
+Type=Application
+X-DocPath=kdroid/index.html
+GenericName=Android SMS Sync
+Terminal=false
+Categories=Qt;KDE;Utility;TelephonyTools;

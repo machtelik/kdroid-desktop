@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
+  <kcfgfile name="kdroidrc"/>
+  <group name="Preferences">
+    <entry name="ip_address" type="String">
+	    <label>IP Address of Android device</label>
+	    <default>192.168.1.11</default>
+    </entry>
+        <entry name="port" type="int">
+	    <label>Port used for communication</label>
+	    <default>48564</default>
+    </entry>
+    <entry name="auto_sync" type="bool">
+            <label>Automatic Sync</label>
+            <default>false</default>
+    </entry>
+    <entry name="timer_interval" type="int">
+            <label>Sync Timer</label>
+            <default>30</default>
+    </entry>
+  </group>
+</kcfg>
