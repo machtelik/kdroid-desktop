@@ -10,7 +10,7 @@ set(kdroid_SRCS
    net/packet.cpp
    xmlhandler.cpp
    net/port.cpp
-   kdroidxmlgui.cpp
+   view/kdroidxmlgui.cpp
    main.cpp
  )
 

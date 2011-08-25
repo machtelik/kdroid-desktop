@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include "kdroidxmlgui.h"
-#include "view/kdroidview.h"
+#include "kdroidview.h"
 #include "settings.h"
 
 #include <QStringList>

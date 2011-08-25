@@ -17,8 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .        *
  ***************************************************************************/
 
-#ifndef KDROID_H
-#define KDROID_H
+#ifndef KDROIDXMLGUI_H
+#define KDROIDXMLGUI_H
 
 
 #include <KXmlGuiWindow>
@@ -31,10 +31,10 @@
 #include <KAction>
 
 #include "ui_prefs_base.h"
-#include "view/sendview.h"
-#include "net/port.h"
-#include "sms/smslist.h"
-#include "contact/contactlist.h"
+#include "sendview.h"
+#include "../net/port.h"
+#include "../sms/smslist.h"
+#include "../contact/contactlist.h"
 #include "xmlhandler.h"
 
 class KDroidView;
@@ -85,4 +85,4 @@ private:
     QString m_saveLocation;
 };
 
-#endif // _KDROID_H_
+#endif // _KDROIDXMLGUI_H_
