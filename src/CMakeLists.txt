@@ -1,16 +1,16 @@
 set(kdroid_SRCS
    view/contactitemdelegate.cpp
    view/smsitemdelegate.cpp
-   contact/contactlist.cpp 
+   contact/contactlist.cpp
    view/kdroidview.cpp
-   contact/contact.cpp 
+   contact/contact.cpp
    sms/smsmessage.cpp
-   view/sendview.cpp 
+   view/sendview.cpp
    sms/smslist.cpp
    net/packet.cpp
-   xmlhandler.cpp 
-   net/port.cpp 
-   kdroid.cpp
+   xmlhandler.cpp
+   net/port.cpp
+   kdroidxmlgui.cpp
    main.cpp
  )
 

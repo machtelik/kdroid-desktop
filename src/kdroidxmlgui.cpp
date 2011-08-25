@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .        *
  ***************************************************************************/
 
-#include "kdroid.h"
+#include "kdroidxmlgui.h"
 #include "view/kdroidview.h"
 #include "settings.h"
 
@@ -253,5 +253,5 @@ void KDroid::closeEvent ( QCloseEvent *event )
 
 
 
-#include "kdroid.moc"
+#include "kdroidxmlgui.moc"
 
