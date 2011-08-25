@@ -20,18 +20,47 @@
 #include "kdroid.h"
 
 #include <KCmdLineArgs>
+#include <KNotification>
+#include <KStandardDirs>
+
+#include "settings.h"
 
 KDroid::KDroid():
-m_gui(new KDroidXmlGui())
+        m_timer ( new QTimer() ),
+        m_port ( new Port ( this ) ),
+        m_smslist ( new SMSList ( this ) ),
+        m_contactlist ( new ContactList ( this ) ),
+        m_xmlhandler ( new XMLHandler ( m_contactlist,m_smslist,this ) ),
+        m_gui(new KDroidXmlGui(this))
 {
 
+    m_saveLocation = KStandardDirs().saveLocation ( "data",qAppName() ).append ( "kdroidData.xml" );
+
+    connect ( m_port,SIGNAL ( newSMSMessage ( SMSMessage ) ),m_smslist,SLOT ( addSMS ( SMSMessage ) ) );
+    connect ( m_port,SIGNAL ( newContact ( Contact ) ),m_contactlist,SLOT ( addContact ( Contact ) ) );
+    connect ( m_port,SIGNAL ( ackGetAll() ),this,SLOT ( ackGetAll() ) );
+    connect ( m_port,SIGNAL ( connectionError() ),this,SLOT ( noConnection() ) );
+    connect ( m_port,SIGNAL ( SMSSend() ),this,SLOT ( SMSSend() ) );
+    connect ( m_port,SIGNAL ( doneGetAll() ),this,SLOT ( SyncComplete() ) );
+
+    connect ( m_smslist,SIGNAL ( newContactTime ( int,long ) ),m_contactlist,SLOT ( updateContactTime ( int,long ) ) );
+
+    connect ( m_timer, SIGNAL ( timeout() ), this, SLOT ( SyncSms() ) );
+
+    if ( m_xmlhandler->load ( m_saveLocation ) )
+    {
+        m_smslist->filter ( m_contactlist->getFirstThreadId() );
+    }
+
+    settingsChanged();
 }
 
 KDroid::~KDroid()
 {
-  if(m_gui) {
-    delete m_gui;
-  }
+    if (m_gui) {
+        delete m_gui;
+    }
+    qDebug()<<"Bye Bye";
 }
 
 int KDroid::newInstance()
@@ -41,5 +70,111 @@ int KDroid::newInstance()
     args->clear();
     return KUniqueApplication::newInstance();
 }
+
+void KDroid::sendSMS ( SMSMessage message )
+{
+    Packet packet = Packet ( message );
+    m_port->send ( packet );
+}
+
+void KDroid::SMSSend()
+{
+    showNotification ( "KDroid",i18n ( "SMS send" ),"sendMessage" );
+    qDebug() <<"Message Send";
+}
+
+void KDroid::SyncComplete()
+{
+    qDebug() <<"Sync Complete";
+
+    showNotification ( "KDroid",i18n ( "Sync complete" ),"syncComplete" );
+    m_smslist->filter ( m_contactlist->getFirstThreadId() );
+
+    m_xmlhandler->save ( m_saveLocation );
+
+}
+
+void KDroid::SyncSms()
+{
+    //sync->setEnabled ( false );
+    qDebug() <<"Sync start";
+    if ( Settings::auto_sync() && !m_timer->isActive() )
+    {
+        m_timer->setInterval ( Settings::timer_interval() *60000 );
+        m_timer->start();
+    }
+    Packet packet =  Packet ( QString ( "Request" ) );
+    packet.addArgument ( "getAll" );
+    m_port->send ( packet );
+}
+
+void KDroid::ackGetAll()
+{
+    qDebug() <<"Sync Ack";
+    m_smslist->clear();
+    m_contactlist->clear();
+}
+
+void KDroid::noConnection()
+{
+    qDebug() <<"No connection";
+    if ( m_timer->isActive() )
+    {
+        m_timer->stop();
+    }
+    showNotification ( "KDroid",i18n ( "Device unreachable" ),"noConnection" );
+}
+
+
+
+void KDroid::showNotification ( QString title, QString message, QString type )
+{
+    m_notify = new KNotification ( type );
+    m_notify->setTitle ( title );
+    m_notify->setText ( message );
+    m_notify->setPixmap ( SmallIcon ( "pda", KIconLoader::SizeMedium ) );
+    m_notify->sendEvent();
+
+}
+
+void KDroid::settingsChanged()
+{
+    qDebug() <<"Settings Changed";
+    m_port->setPort ( Settings::port() );
+    m_port->setIp ( Settings::ip_address() );
+    if ( Settings::auto_sync() )
+    {
+        m_timer->setInterval ( Settings::timer_interval() *60000 );
+        m_timer->start();
+        SyncSms();
+    }
+    else
+    {
+        m_timer->stop();
+    }
+
+}
+
+XMLHandler* KDroid::getXMLHandler()
+{
+    return m_xmlhandler;
+}
+
+ContactList* KDroid::getContactList()
+{
+    return m_contactlist;
+}
+
+SMSList* KDroid::getSMSList()
+{
+    return m_smslist;
+}
+
+Port* KDroid::getPort()
+{
+  return m_port;
+}
+
+#include "kdroid.moc"
 
 

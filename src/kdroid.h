@@ -22,18 +22,47 @@
 
 #include <KUniqueApplication>
 #include "view/kdroidxmlgui.h"
+#include "sms/smsmessage.h"
+#include "net/port.h"
+#include "sms/smslist.h"
+#include "contact/contactlist.h"
+#include "xmlhandler.h"
+
+class KDroidXmlGui;
 
 class KDroid : public KUniqueApplication
 {
-
+Q_OBJECT
 public:
     KDroid();
     virtual ~KDroid();
 
     virtual int newInstance();
-
+public slots:
+    void SyncSms();
+    void sendSMS(SMSMessage message);
+    void settingsChanged();
+private slots:
+    void SMSSend();
+    void SyncComplete();
+    void showNotification(QString title, QString message, QString type);
+    void ackGetAll();
+    void noConnection();
+public:
+    XMLHandler* getXMLHandler();
+    ContactList* getContactList();
+    SMSList* getSMSList();
+    Port* getPort();
 private:
-  KDroidXmlGui *m_gui;
+    KNotification* m_notify;
+    QTimer *m_timer;
+    Port *m_port;
+    SMSList *m_smslist;
+    ContactList *m_contactlist;
+    XMLHandler *m_xmlhandler;
+    KDroidXmlGui *m_gui;
+
+    QString m_saveLocation;
 };
 
 #endif // KDROID_H

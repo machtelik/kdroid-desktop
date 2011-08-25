@@ -29,30 +29,23 @@
 #include <QFile>
 #include <QDir>
 
-#include <KDE/KApplication>
+#include <KDE/KUniqueApplication>
 #include <KConfigDialog>
 #include <KStatusBar>
 #include <KAction>
 #include <KActionCollection>
 #include <KStandardAction>
-#include <KNotification>
-#include <KStandardDirs>
-#include <KMessageBox>
 #include <KSystemTrayIcon>
 #include <KFileDialog>
 #include <KLocale>
 #include <KUser>
 #include <KIconLoader>
 
-KDroidXmlGui::KDroidXmlGui()
+KDroidXmlGui::KDroidXmlGui(KDroid *app)
         : KXmlGuiWindow(),
         m_view ( new KDroidView ( this ) ),
         m_sendview ( new SendView ( this ) ),
-        m_timer ( new QTimer() ),
-        m_port ( new Port ( this ) ),
-        m_smslist ( new SMSList ( this ) ),
-        m_contactlist ( new ContactList ( this ) ),
-        m_xmlhandler ( new XMLHandler ( m_contactlist,m_smslist,this ) )
+        m_app(app)
 {
     setAcceptDrops ( true );
 
@@ -65,40 +58,23 @@ KDroidXmlGui::KDroidXmlGui()
     statusBar()->show();
 
     setupGUI();
-    m_view->setContactModel ( m_contactlist );
-    m_view->setSMSModel ( m_smslist );
+
     QPixmap icon = SmallIcon ( "pda", KIconLoader::SizeMedium );
     m_trayIcon= new KSystemTrayIcon ( icon,this );
     m_trayIcon->show();
 
-    m_saveLocation = KStandardDirs().saveLocation ( "data",qAppName() ).append ( "kdroidData.xml" );
 
-    connect ( m_port,SIGNAL ( newSMSMessage ( SMSMessage ) ),m_smslist,SLOT ( addSMS ( SMSMessage ) ) );
-    connect ( m_port,SIGNAL ( newContact ( Contact ) ),m_contactlist,SLOT ( addContact ( Contact ) ) );
-    connect ( m_port,SIGNAL ( ackGetAll() ),this,SLOT ( ackGetAll() ) );
-    connect ( m_port,SIGNAL ( connectionError() ),this,SLOT ( noConnection() ) );
-    connect ( m_port,SIGNAL ( SMSSend() ),this,SLOT ( SMSSend() ) );
-    connect ( m_port,SIGNAL ( doneGetAll() ),this,SLOT ( SyncComplete() ) );
-
-    connect ( m_smslist,SIGNAL ( newContactTime ( int,long ) ),m_contactlist,SLOT ( updateContactTime ( int,long ) ) );
-
-    connect ( m_timer, SIGNAL ( timeout() ), this, SLOT ( SyncSms() ) );
+    m_view->setContactModel (m_app->getContactList() );
+    m_view->setSMSModel ( m_app->getSMSList() );
 
     connect ( m_view,SIGNAL ( contactAktivated ( QModelIndex ) ),this,SLOT ( selectionChanged ( QModelIndex ) ) );
 
-    connect ( m_sendview,SIGNAL ( sendSMS ( SMSMessage ) ),this,SLOT ( sendSMS ( SMSMessage ) ) );
+    connect ( m_sendview,SIGNAL ( sendSMS ( SMSMessage ) ),m_app,SLOT ( sendSMS ( SMSMessage ) ) );
 
-    settingsChanged();
-
-    if ( m_xmlhandler->load ( m_saveLocation ) )
-    {
-        m_smslist->filter ( m_contactlist->getFirstThreadId() );
-    }
 }
 
 KDroidXmlGui::~KDroidXmlGui()
 {
-    delete m_timer;
 }
 
 void KDroidXmlGui::setupActions()
@@ -109,7 +85,7 @@ void KDroidXmlGui::setupActions()
 
     sync = new KAction ( KIcon ( "pda" ), i18n ( "Synchronise" ), this );
     actionCollection()->addAction ( QLatin1String ( "sync_action" ), sync );
-    connect ( sync, SIGNAL ( triggered ( bool ) ), this, SLOT ( SyncSms() ) );
+    connect ( sync, SIGNAL ( triggered ( bool ) ), m_app, SLOT ( SyncSms() ) );
 
     KAction *xmlexport = new KAction ( i18n ( "XML" ), this );
     actionCollection()->addAction ( QLatin1String ( "xml_export" ), xmlexport );
@@ -125,77 +101,8 @@ void KDroidXmlGui::xmlExport()
     QString file = KFileDialog::getSaveFileName ( KUrl(), i18n ( "*.xml|KDroid file (*.xml)" ),this );
     if ( !file.isEmpty() )
     {
-        m_xmlhandler->save ( file );
+        m_app->getXMLHandler()->save(file);
     }
-}
-
-void KDroidXmlGui::sendSMS ( SMSMessage message )
-{
-    Packet packet = Packet ( message );
-    m_port->send ( packet );
-}
-
-void KDroidXmlGui::SMSSend()
-{
-    showNotification ( "KDroid",i18n ( "SMS send" ),"sendMessage" );
-    qDebug() <<"Message Send";
-}
-
-void KDroidXmlGui::SyncComplete()
-{
-    qDebug() <<"Sync Complete";
-
-    showNotification ( "KDroid",i18n ( "Sync complete" ),"syncComplete" );
-    sync->setEnabled ( true );
-    m_smslist->filter ( m_contactlist->getFirstThreadId() );
-
-    m_xmlhandler->save ( m_saveLocation );
-
-}
-
-void KDroidXmlGui::SyncSms()
-{
-    //sync->setEnabled ( false );
-    qDebug() <<"Sync start";
-    if ( Settings::auto_sync() && !m_timer->isActive() )
-    {
-        m_timer->setInterval ( Settings::timer_interval() *60000 );
-        m_timer->start();
-    }
-    Packet packet =  Packet ( QString ( "Request" ) );
-    packet.addArgument ( "getAll" );
-    m_port->send ( packet );
-}
-
-void KDroidXmlGui::ackGetAll()
-{
-    qDebug() <<"Sync Ack";
-    m_smslist->clear();
-    m_contactlist->clear();
-}
-
-void KDroidXmlGui::noConnection()
-{
-    qDebug() <<"No connection";
-    if ( m_timer->isActive() )
-    {
-        m_timer->stop();
-    }
-    sync->setEnabled ( true );
-    showNotification ( "KDroid",i18n ( "Device unreachable" ),"noConnection" );
-    //KMessageBox::error(this,i18n("Phone unreachable"));
-}
-
-
-
-void KDroidXmlGui::showNotification ( QString title, QString message, QString type )
-{
-    m_notify = new KNotification ( type );
-    m_notify->setTitle ( title );
-    m_notify->setText ( message );
-    m_notify->setPixmap ( SmallIcon ( "pda", KIconLoader::SizeMedium ) );
-    m_notify->sendEvent();
-
 }
 
 void KDroidXmlGui::optionsPreferences()
@@ -208,33 +115,15 @@ void KDroidXmlGui::optionsPreferences()
     QWidget *generalSettingsDlg = new QWidget;
     ui_prefs_base.setupUi ( generalSettingsDlg );
     dialog->addPage ( generalSettingsDlg, i18n ( "General" ), "package_setting" );
-    connect ( dialog, SIGNAL ( settingsChanged ( QString ) ), this, SLOT ( settingsChanged() ) );
+    connect ( dialog, SIGNAL ( settingsChanged ( QString ) ), m_app, SLOT ( settingsChanged() ) );
     dialog->setAttribute ( Qt::WA_DeleteOnClose );
     dialog->show();
-}
-
-void KDroidXmlGui::settingsChanged()
-{
-    qDebug() <<"Settings Changed";
-    m_port->setPort ( Settings::port() );
-    m_port->setIp ( Settings::ip_address() );
-    if ( Settings::auto_sync() )
-    {
-        m_timer->setInterval ( Settings::timer_interval() *60000 );
-        m_timer->start();
-        SyncSms();
-    }
-    else
-    {
-        m_timer->stop();
-    }
-
 }
 
 void KDroidXmlGui::selectionChanged ( QModelIndex index )
 {
     m_sendview->setAddress ( index.data ( ContactList::Address ).toString() );
-    m_smslist->filter ( index.data ( ContactList::ThreadId ).toInt() );
+    m_app->getSMSList()->filter ( index.data ( ContactList::ThreadId ).toInt() );
 }
 
 
@@ -246,7 +135,6 @@ void KDroidXmlGui::closeEvent ( QCloseEvent *event )
         event->ignore();
         return;
     }
-
     event->accept();
     kapp->quit();
 }

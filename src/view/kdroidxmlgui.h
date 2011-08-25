@@ -30,59 +30,41 @@
 #include <QModelIndex>
 #include <KAction>
 
+#include "../kdroid.h"
 #include "ui_prefs_base.h"
 #include "sendview.h"
 #include "../net/port.h"
 #include "../sms/smslist.h"
 #include "../contact/contactlist.h"
-#include "xmlhandler.h"
+#include "../xmlhandler.h"
 
 class KDroidView;
-class KToggleAction;
-class KUrl;
+class KDroid;
 
 class KDroidXmlGui : public KXmlGuiWindow
 {
     Q_OBJECT
 public:
-
-    KDroidXmlGui();
+    KDroidXmlGui(KDroid *app);
     virtual ~KDroidXmlGui();
 
 private slots:
-    void SyncSms();
     void optionsPreferences();
-    void showNotification(QString title, QString message, QString type);
-    void settingsChanged();
     void closeEvent(QCloseEvent *event);
     void xmlExport();
     void selectionChanged(QModelIndex index);
-    void ackGetAll();
-    void noConnection();
-    void sendSMS(SMSMessage message);
-    void SMSSend();
-    void SyncComplete();
 
 private:
     void setupActions();
-
-    KNotification* m_notify;
 
     Ui::prefs_base ui_prefs_base ;
     KDroidView *m_view;
     SendView *m_sendview;
     KSystemTrayIcon *m_trayIcon;
-    QTimer *m_timer;
-    Port *m_port;
-    SMSList *m_smslist;
-    ContactList *m_contactlist;
-    XMLHandler *m_xmlhandler;
 
-    KToggleAction *m_toolbarAction;
-    KToggleAction *m_statusbarAction;
     KAction *sync;
 
-    QString m_saveLocation;
+    KDroid *m_app;
 };
 
 #endif // _KDROIDXMLGUI_H_

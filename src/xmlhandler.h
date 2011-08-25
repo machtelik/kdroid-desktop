@@ -35,6 +35,7 @@ Q_OBJECT
 public:
     XMLHandler(ContactList *contactlist,SMSList *smslist, QObject * parent = 0);
     ~XMLHandler();
+public slots:
     void save(QString filename);
     bool load( QString filename);
 private:
