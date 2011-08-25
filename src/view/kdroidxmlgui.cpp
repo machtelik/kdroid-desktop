@@ -44,7 +44,7 @@
 #include <KUser>
 #include <KIconLoader>
 
-KDroid::KDroid()
+KDroidXmlGui::KDroidXmlGui()
         : KXmlGuiWindow(),
         m_view ( new KDroidView ( this ) ),
         m_sendview ( new SendView ( this ) ),
@@ -96,12 +96,12 @@ KDroid::KDroid()
     }
 }
 
-KDroid::~KDroid()
+KDroidXmlGui::~KDroidXmlGui()
 {
     delete m_timer;
 }
 
-void KDroid::setupActions()
+void KDroidXmlGui::setupActions()
 {
     KStandardAction::quit ( qApp, SLOT ( quit() ), actionCollection() );
 
@@ -120,7 +120,7 @@ void KDroid::setupActions()
 
 }
 
-void KDroid::xmlExport()
+void KDroidXmlGui::xmlExport()
 {
     QString file = KFileDialog::getSaveFileName ( KUrl(), i18n ( "*.xml|KDroid file (*.xml)" ),this );
     if ( !file.isEmpty() )
@@ -129,19 +129,19 @@ void KDroid::xmlExport()
     }
 }
 
-void KDroid::sendSMS ( SMSMessage message )
+void KDroidXmlGui::sendSMS ( SMSMessage message )
 {
     Packet packet = Packet ( message );
     m_port->send ( packet );
 }
 
-void KDroid::SMSSend()
+void KDroidXmlGui::SMSSend()
 {
     showNotification ( "KDroid",i18n ( "SMS send" ),"sendMessage" );
     qDebug() <<"Message Send";
 }
 
-void KDroid::SyncComplete()
+void KDroidXmlGui::SyncComplete()
 {
     qDebug() <<"Sync Complete";
 
@@ -153,7 +153,7 @@ void KDroid::SyncComplete()
 
 }
 
-void KDroid::SyncSms()
+void KDroidXmlGui::SyncSms()
 {
     //sync->setEnabled ( false );
     qDebug() <<"Sync start";
@@ -167,14 +167,14 @@ void KDroid::SyncSms()
     m_port->send ( packet );
 }
 
-void KDroid::ackGetAll()
+void KDroidXmlGui::ackGetAll()
 {
     qDebug() <<"Sync Ack";
     m_smslist->clear();
     m_contactlist->clear();
 }
 
-void KDroid::noConnection()
+void KDroidXmlGui::noConnection()
 {
     qDebug() <<"No connection";
     if ( m_timer->isActive() )
@@ -188,7 +188,7 @@ void KDroid::noConnection()
 
 
 
-void KDroid::showNotification ( QString title, QString message, QString type )
+void KDroidXmlGui::showNotification ( QString title, QString message, QString type )
 {
     m_notify = new KNotification ( type );
     m_notify->setTitle ( title );
@@ -198,7 +198,7 @@ void KDroid::showNotification ( QString title, QString message, QString type )
 
 }
 
-void KDroid::optionsPreferences()
+void KDroidXmlGui::optionsPreferences()
 {
     if ( KConfigDialog::showDialog ( "settings" ) )
     {
@@ -213,7 +213,7 @@ void KDroid::optionsPreferences()
     dialog->show();
 }
 
-void KDroid::settingsChanged()
+void KDroidXmlGui::settingsChanged()
 {
     qDebug() <<"Settings Changed";
     m_port->setPort ( Settings::port() );
@@ -231,14 +231,14 @@ void KDroid::settingsChanged()
 
 }
 
-void KDroid::selectionChanged ( QModelIndex index )
+void KDroidXmlGui::selectionChanged ( QModelIndex index )
 {
     m_sendview->setAddress ( index.data ( ContactList::Address ).toString() );
     m_smslist->filter ( index.data ( ContactList::ThreadId ).toInt() );
 }
 
 
-void KDroid::closeEvent ( QCloseEvent *event )
+void KDroidXmlGui::closeEvent ( QCloseEvent *event )
 {
     if ( event->spontaneous() && !kapp->sessionSaving() )
     {

@@ -1,17 +1,18 @@
 set(kdroid_SRCS
+   main.cpp
+   kdroid.cpp
+   xmlhandler.cpp
    view/contactitemdelegate.cpp
    view/smsitemdelegate.cpp
-   contact/contactlist.cpp
+   view/kdroidxmlgui.cpp
+   view/sendview.cpp
    view/kdroidview.cpp
    contact/contact.cpp
+   contact/contactlist.cpp
    sms/smsmessage.cpp
-   view/sendview.cpp
    sms/smslist.cpp
    net/packet.cpp
-   xmlhandler.cpp
    net/port.cpp
-   view/kdroidxmlgui.cpp
-   main.cpp
  )
 
 kde4_add_ui_files(kdroid_SRCS view/kdroidview_base.ui view/prefs_base.ui view/sendview_base.ui)

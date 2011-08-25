@@ -17,39 +17,29 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .        *
  ***************************************************************************/
 
-#include <KDE/KUniqueApplication>
-#include <KDE/KAboutData>
-#include <KDE/KCmdLineArgs>
-#include <KDE/KLocale>
-
 #include "kdroid.h"
 
-static const char description[] =
-    I18N_NOOP("Android SMS Sync");
+#include <KCmdLineArgs>
 
-static const char version[] = "0.5";
-
-int main(int argc, char **argv)
+KDroid::KDroid():
+m_gui(new KDroidXmlGui())
 {
-    KAboutData about("kdroid", 0, ki18n("KDroid"), version, ki18n(description),
-                     KAboutData::License_GPL, ki18n("(C) 2011 Mike Achtelik"), KLocalizedString(), 0, "mike.achtelik+kdroidbugs@gmail.com");
-    about.addAuthor( ki18n("Mike Achtelik"), KLocalizedString(), "mike.achtelik+kdroid@gmail.com" );
-    KCmdLineArgs::init(argc, argv, &about);
 
-    KCmdLineOptions options;
-    options.add("send",ki18n("Sends text message if <address> and <body> are provided"));
-    options.add("address <address>",ki18n("Address"));
-    options.add("body <body>",ki18n("Message body"));
-    options.add("quiet",ki18n("Don't show the Main Window"));
-    KCmdLineArgs::addCmdLineOptions(options);
-    KCmdLineArgs::init(argc, argv, &about);
-    KCmdLineArgs::addCmdLineOptions( options );
-    KDroid::addCmdLineOptions();
-
-    if (!KDroid::start()) {
-       fprintf(stderr, "KDroid is already running!\n");
-       return 0;
-    }
-    KDroid app;
-    return app.exec();
 }
+
+KDroid::~KDroid()
+{
+  if(m_gui) {
+    delete m_gui;
+  }
+}
+
+int KDroid::newInstance()
+{
+    KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+    m_gui->show();
+    args->clear();
+    return KUniqueApplication::newInstance();
+}
+
+

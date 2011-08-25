@@ -41,13 +41,13 @@ class KDroidView;
 class KToggleAction;
 class KUrl;
 
-class KDroid : public KXmlGuiWindow
+class KDroidXmlGui : public KXmlGuiWindow
 {
     Q_OBJECT
 public:
 
-    KDroid();
-    virtual ~KDroid();
+    KDroidXmlGui();
+    virtual ~KDroidXmlGui();
 
 private slots:
     void SyncSms();
