@@ -64,5 +64,11 @@ void SendView::setAddress(QString address)
     ui_sendview_base.AddressEdit->setText(address);
 }
 
+void SendView::setBody(QString body)
+{
+  ui_sendview_base.SmsTextEdit->setPlainText(body);
+}
+
+
 
 #include "view/sendview.moc"

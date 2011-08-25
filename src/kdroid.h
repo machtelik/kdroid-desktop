@@ -28,6 +28,8 @@
 #include "contact/contactlist.h"
 #include "xmlhandler.h"
 
+#include <KCmdLineArgs>
+
 class KDroidXmlGui;
 
 class KDroid : public KUniqueApplication
@@ -37,7 +39,7 @@ public:
     KDroid();
     virtual ~KDroid();
 
-    virtual int newInstance();
+    int newInstance();
 public slots:
     void SyncSms();
     void sendSMS(SMSMessage message);
@@ -61,8 +63,9 @@ private:
     ContactList *m_contactlist;
     XMLHandler *m_xmlhandler;
     KDroidXmlGui *m_gui;
-
     QString m_saveLocation;
+
+    void handleArgs(KCmdLineArgs *args);
 };
 
 #endif // KDROID_H

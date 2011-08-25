@@ -139,6 +139,11 @@ void KDroidXmlGui::closeEvent ( QCloseEvent *event )
     kapp->quit();
 }
 
+SendView* KDroidXmlGui::getSendView()
+{
+  return m_sendview;
+}
+
 
 
 #include "kdroidxmlgui.moc"

@@ -47,7 +47,8 @@ int main(int argc, char **argv)
     KDroid::addCmdLineOptions();
 
     if (!KDroid::start()) {
-       fprintf(stderr, "KDroid is already running!\n");
+       fprintf(stdout, "KDroid is already running!\n");
+       fprintf(stdout, "Arguments have been passed to first instance\n");
        return 0;
     }
     KDroid app;

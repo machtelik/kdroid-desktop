@@ -48,6 +48,8 @@ public:
     KDroidXmlGui(KDroid *app);
     virtual ~KDroidXmlGui();
 
+    SendView* getSendView();
+
 private slots:
     void optionsPreferences();
     void closeEvent(QCloseEvent *event);

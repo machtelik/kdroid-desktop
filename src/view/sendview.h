@@ -34,6 +34,7 @@ class SendView: public QDockWidget
 public:
     SendView(QWidget *parent);
     void setAddress(QString address);
+    void setBody(QString body);
 public slots:
     void Send();
 private slots:

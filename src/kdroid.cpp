@@ -22,6 +22,9 @@
 #include <KCmdLineArgs>
 #include <KNotification>
 #include <KStandardDirs>
+#include <KStartupInfo>
+
+#include <QDebug>
 
 #include "settings.h"
 
@@ -66,10 +69,38 @@ KDroid::~KDroid()
 int KDroid::newInstance()
 {
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-    m_gui->show();
+    handleArgs(args);
+    static bool first = true;
+    if(!first) {
+      KStartupInfo::setNewStartupId(m_gui, startupId());
+    }
+    first = false;
     args->clear();
-    return KUniqueApplication::newInstance();
+    return 0;
 }
+
+void KDroid::handleArgs(KCmdLineArgs* args)
+{
+  if(!args->isSet("quiet")) {
+    m_gui->show();
+  }
+  if(!args->isSet("send")) {
+    if(args->isSet("address")) {
+      m_gui->getSendView()->setAddress(args->getOption("address"));
+    }
+    if(args->isSet("body")) {
+      m_gui->getSendView()->setBody(args->getOption("body"));
+    }
+  }
+  if(args->isSet("send") && args->isSet("address") && args->isSet("body")) {
+        SMSMessage message;
+        message.Body=args->getOption("body");
+        message.Address=args->getOption("address");
+        message.Time=QDateTime::currentMSecsSinceEpoch();
+        sendSMS(message);
+  }
+}
+
 
 void KDroid::sendSMS ( SMSMessage message )
 {
