@@ -45,6 +45,7 @@ KDroid::KDroid():
     connect ( m_port,SIGNAL ( connectionError() ),this,SLOT ( noConnection() ) );
     connect ( m_port,SIGNAL ( SMSSend() ),this,SLOT ( SMSSend() ) );
     connect ( m_port,SIGNAL ( doneGetAll() ),this,SLOT ( SyncComplete() ) );
+    connect ( m_port,SIGNAL ( newSMSMessage ( SMSMessage ) ),this,SLOT ( newMessage(SMSMessage) ) );
 
     connect ( m_smslist,SIGNAL ( newContactTime ( int,long ) ),m_contactlist,SLOT ( updateContactTime ( int,long ) ) );
 
@@ -71,8 +72,8 @@ int KDroid::newInstance()
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
     handleArgs(args);
     static bool first = true;
-    if(!first) {
-      KStartupInfo::setNewStartupId(m_gui, startupId());
+    if (!first) {
+        KStartupInfo::setNewStartupId(m_gui, startupId());
     }
     first = false;
     args->clear();
@@ -81,25 +82,34 @@ int KDroid::newInstance()
 
 void KDroid::handleArgs(KCmdLineArgs* args)
 {
-  if(!args->isSet("quiet")) {
-    m_gui->show();
-  }
-  if(!args->isSet("send")) {
-    if(args->isSet("address")) {
-      m_gui->getSendView()->setAddress(args->getOption("address"));
+    if (!args->isSet("quiet")) {
+        m_gui->show();
     }
-    if(args->isSet("body")) {
-      m_gui->getSendView()->setBody(args->getOption("body"));
+    if (!args->isSet("send")) {
+        if (args->isSet("address")) {
+            m_gui->getSendView()->setAddress(args->getOption("address"));
+        }
+        if (args->isSet("body")) {
+            m_gui->getSendView()->setBody(args->getOption("body"));
+        }
     }
-  }
-  if(args->isSet("send") && args->isSet("address") && args->isSet("body")) {
+    if (args->isSet("send") && args->isSet("address") && args->isSet("body")) {
         SMSMessage message;
         message.Body=args->getOption("body");
         message.Address=args->getOption("address");
         message.Time=QDateTime::currentMSecsSinceEpoch();
         sendSMS(message);
-  }
+    }
 }
+
+void KDroid::newMessage(SMSMessage message)
+{
+    if (message.Type=="Incoming") {
+        showNotification ( "KDroid",i18n ( "New Message" ),"newMessage" );
+        qDebug() <<"new Message";
+    }
+}
+
 
 
 void KDroid::sendSMS ( SMSMessage message )
@@ -117,7 +127,7 @@ void KDroid::SMSSend()
 void KDroid::SyncComplete()
 {
     qDebug() <<"Sync Complete";
-
+    connect ( m_port,SIGNAL ( newSMSMessage ( SMSMessage ) ),this,SLOT ( newMessage(SMSMessage) ) );
     showNotification ( "KDroid",i18n ( "Sync complete" ),"syncComplete" );
     m_smslist->filter ( m_contactlist->getFirstThreadId() );
 
@@ -127,8 +137,8 @@ void KDroid::SyncComplete()
 
 void KDroid::SyncSms()
 {
-    //sync->setEnabled ( false );
     qDebug() <<"Sync start";
+    disconnect ( m_port,SIGNAL ( newSMSMessage ( SMSMessage ) ),this,SLOT ( newMessage(SMSMessage) ) );
     if ( Settings::auto_sync() && !m_timer->isActive() )
     {
         m_timer->setInterval ( Settings::timer_interval() *60000 );
@@ -203,7 +213,7 @@ SMSList* KDroid::getSMSList()
 
 Port* KDroid::getPort()
 {
-  return m_port;
+    return m_port;
 }
 
 #include "kdroid.moc"
