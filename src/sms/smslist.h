@@ -41,7 +41,7 @@ public slots:
   void clear();
   void filter(QString filter);
 signals:
-  void newContactTime(QString address,long time);
+  void newContact(QString address,long time);
 private:
   QList<SMSMessage> *m_smslist;
   QList<const SMSMessage*> *m_filteredlist;

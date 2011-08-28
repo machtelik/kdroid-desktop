@@ -39,7 +39,7 @@ public:
 public slots:
     void addContact(Contact contact);
     void clear();
-    void updateContactTime(QString address, long time);
+    void updateContacts(QString address, long time);
 signals:
 private:
   QList<Contact> *m_contactlist;

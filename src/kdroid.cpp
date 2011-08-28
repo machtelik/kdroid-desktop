@@ -47,7 +47,7 @@ KDroid::KDroid():
     connect ( m_port,SIGNAL ( doneGetAll() ),this,SLOT ( SyncComplete() ) );
     connect ( m_port,SIGNAL ( newSMSMessage ( SMSMessage ) ),this,SLOT ( newMessage(SMSMessage) ) );
 
-    connect ( m_smslist,SIGNAL ( newContactTime ( QString,long ) ),m_contactlist,SLOT ( updateContactTime ( QString,long ) ) );
+    connect ( m_smslist,SIGNAL ( newContact ( QString,long ) ),m_contactlist,SLOT ( updateContacts ( QString,long ) ) );
 
     connect ( m_timer, SIGNAL ( timeout() ), this, SLOT ( SyncSms() ) );
 

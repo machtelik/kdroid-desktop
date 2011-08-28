@@ -47,7 +47,7 @@ void SMSList::addSMS ( SMSMessage message )
 {
 
     m_smslist->append ( message );
-    emit newContactTime ( message.Address,message.Time );
+    emit newContact ( message.Address,message.Time );
     if ( PhoneNumberUtil::compare(message.Address,m_filter) )
     {
         sortedInsert ( &m_smslist->last() );

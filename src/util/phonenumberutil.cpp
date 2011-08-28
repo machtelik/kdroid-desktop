@@ -47,7 +47,6 @@ bool PhoneNumberUtil::compare(QString a, QString b)
         }
     }
     if (max!=0) {
-        qDebug()<<normA<<" "<<normB<<" "<<comp<<" "<<max<<" "<<((double)comp/max>0.7)<<" "<<(double)comp/max;
         if ((double)comp/max>0.75) { //if 75% of the number are the same, it is the same
             return true;
         }

@@ -23,6 +23,8 @@
 
 #include "../util/phonenumberutil.h"
 
+#include "KLocale"
+
 ContactList::ContactList ( QObject * parent ) :
         QAbstractListModel ( parent ),
         m_contactlist ( new QList<Contact>() )
@@ -80,19 +82,30 @@ QString ContactList::getFirstAddress()
 }
 
 
-void ContactList::updateContactTime (QString address , long time )
+void ContactList::updateContacts (QString address , long time )
 {
+    bool found = false;
     for ( int i = 0;i<m_contactlist->size();++i )
     {
-        if ( PhoneNumberUtil::compare(m_contactlist->at ( i ).Address,address) && m_contactlist->at ( i ).lastContactTime<time )
+        if ( PhoneNumberUtil::compare(m_contactlist->at ( i ).Address,address) )
         {
-            beginRemoveRows ( QModelIndex(),i,i );
-            Contact c = m_contactlist->takeAt ( i );
-            endRemoveRows();
-            c.lastContactTime=time;
-            sortedInsert ( c );
-            break;
+            found=true;
+            if (m_contactlist->at ( i ).lastContactTime<time) {
+                beginRemoveRows ( QModelIndex(),i,i );
+                Contact c = m_contactlist->takeAt ( i );
+                endRemoveRows();
+                c.lastContactTime=time;
+                sortedInsert ( c );
+                return;
+            }
         }
+    }
+    if (!found) {
+        Contact contact;
+        contact.Name=i18n("Unknown");
+        contact.Address=address;
+        contact.lastContactTime=time;
+        sortedInsert(contact);
     }
 }
 
