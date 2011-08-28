@@ -126,5 +126,6 @@ void Port::dispatch(Packet packet) {
             return;
         }
     }
-    qDebug()<<"Unknown Packet";
+    qDebug()<<"Unknown Packet: "<<packet.getType();
+
 }
