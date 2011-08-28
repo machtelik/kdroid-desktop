@@ -47,13 +47,13 @@ KDroid::KDroid():
     connect ( m_port,SIGNAL ( doneGetAll() ),this,SLOT ( SyncComplete() ) );
     connect ( m_port,SIGNAL ( newSMSMessage ( SMSMessage ) ),this,SLOT ( newMessage(SMSMessage) ) );
 
-    connect ( m_smslist,SIGNAL ( newContactTime ( int,long ) ),m_contactlist,SLOT ( updateContactTime ( int,long ) ) );
+    connect ( m_smslist,SIGNAL ( newContactTime ( QString,long ) ),m_contactlist,SLOT ( updateContactTime ( QString,long ) ) );
 
     connect ( m_timer, SIGNAL ( timeout() ), this, SLOT ( SyncSms() ) );
 
     if ( m_xmlhandler->load ( m_saveLocation ) )
     {
-        m_smslist->filter ( m_contactlist->getFirstThreadId() );
+        m_smslist->filter ( m_contactlist->getFirstAddress() );
     }
 
     settingsChanged();
@@ -129,7 +129,7 @@ void KDroid::SyncComplete()
     qDebug() <<"Sync Complete";
     connect ( m_port,SIGNAL ( newSMSMessage ( SMSMessage ) ),this,SLOT ( newMessage(SMSMessage) ) );
     showNotification ( "KDroid",i18n ( "Sync complete" ),"syncComplete" );
-    m_smslist->filter ( m_contactlist->getFirstThreadId() );
+    m_smslist->filter ( m_contactlist->getFirstAddress() );
 
     m_xmlhandler->save ( m_saveLocation );
 

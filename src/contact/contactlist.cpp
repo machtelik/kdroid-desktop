@@ -21,6 +21,8 @@
 
 #include <QDebug>
 
+#include "../util/phonenumberutil.h"
+
 ContactList::ContactList ( QObject * parent ) :
         QAbstractListModel ( parent ),
         m_contactlist ( new QList<Contact>() )
@@ -68,21 +70,21 @@ void ContactList::sortedInsert ( Contact& contact )
     endInsertRows();
 }
 
-int ContactList::getFirstThreadId()
+QString ContactList::getFirstAddress()
 {
     if ( !m_contactlist->isEmpty() )
     {
-        return m_contactlist->first().ThreadId;
+        return m_contactlist->first().Address;
     }
-    return -2;
+    return "-1";
 }
 
 
-void ContactList::updateContactTime ( int ThreadId, long time )
+void ContactList::updateContactTime (QString address , long time )
 {
     for ( int i = 0;i<m_contactlist->size();++i )
     {
-        if ( m_contactlist->at ( i ).ThreadId==ThreadId && m_contactlist->at ( i ).lastContactTime<time )
+        if ( PhoneNumberUtil::compare(m_contactlist->at ( i ).Address,address) && m_contactlist->at ( i ).lastContactTime<time )
         {
             beginRemoveRows ( QModelIndex(),i,i );
             Contact c = m_contactlist->takeAt ( i );
@@ -122,8 +124,6 @@ QVariant ContactList::data ( const QModelIndex& index, int role ) const
         return QVariant ( m_contactlist->at ( index.row() ).Address );
     else if ( role == ID )
         return QVariant ( m_contactlist->at ( index.row() ).Id );
-    else if ( role == ThreadId )
-        return QVariant ( m_contactlist->at ( index.row() ).ThreadId );
     else
         return QVariant();
 }

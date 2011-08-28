@@ -35,18 +35,18 @@ public:
   virtual QVariant data(const QModelIndex &index, int role) const;
   int size();
   SMSMessage getAt(int at);
-  enum SMSData {Body=0,Address=25,ContactId=26,Id=27,ThreadId=28,Type=29,Time=30};
+  enum SMSData {Body=0,Address=25,Id=27,Type=29,Time=30};
 public slots:
   void addSMS(SMSMessage message);
   void clear();
-  void filter(int filter);
+  void filter(QString filter);
 signals:
-  void newContactTime(int ThreadId,long time);
+  void newContactTime(QString address,long time);
 private:
   QList<SMSMessage> *m_smslist;
   QList<const SMSMessage*> *m_filteredlist;
   void sortedInsert(const SMSMessage *message);
-  int m_filter;
+  QString m_filter;
 };
 
 #endif // SMSHANDLER_H

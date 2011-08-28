@@ -44,9 +44,7 @@ seperator(30)
 {
     type="SMS";
     addArgument(QString::number(message.Id));
-    addArgument(QString::number(message.ThreadId));
     addArgument(message.Address);
-    addArgument(QString::number(message.PersonId));
     addArgument(message.Body);
     addArgument(QString::number(message.Time));
     addArgument(message.Type);
@@ -75,12 +73,10 @@ void Packet::addArgument(QString argument) {
 SMSMessage Packet::toSMSMessage() {
     SMSMessage message;
     message.Id=arguments.at(0).toInt();
-    message.ThreadId=arguments.at(1).toInt();
-    message.Address=arguments.at(2);
-    message.PersonId=arguments.at(3).toInt();
-    message.Body=arguments.at(4);
-    message.Time=arguments.at(5).toLong();
-    message.Type=arguments.at(6);
+    message.Address=arguments.at(1);
+    message.Body=arguments.at(2);
+    message.Time=arguments.at(3).toLong();
+    message.Type=arguments.at(4);
     return message;
 }
 
@@ -90,7 +86,6 @@ Contact Packet::toContact()
   contact.Id=arguments.at(0).toInt();
   contact.Name=arguments.at(1);
   contact.Address=arguments.at(2);
-  contact.ThreadId=arguments.at(3).toInt();
   return contact;
 }
 

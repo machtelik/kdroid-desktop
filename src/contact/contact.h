@@ -31,7 +31,6 @@ public:
     QString Name;
     QString Address;
     long lastContactTime;
-    int ThreadId;
     bool operator<(const Contact &contact);
 };
 

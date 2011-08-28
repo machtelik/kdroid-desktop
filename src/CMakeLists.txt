@@ -1,4 +1,5 @@
 set(kdroid_SRCS
+   util/phonenumberutil.cpp
    view/contactitemdelegate.cpp
    view/smsitemdelegate.cpp
    view/kdroidxmlgui.cpp

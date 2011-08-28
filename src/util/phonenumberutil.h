@@ -17,21 +17,21 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .        *
  ***************************************************************************/
 
-#include "contact.h"
+#ifndef PHONENUMBERUTIL_H
+#define PHONENUMBERUTIL_H
+#include <QString>
 
-Contact::Contact()
+class PhoneNumberUtil
 {
-    Id=-1;
-    Address=" ";
-    Name=" ";
-    lastContactTime=-1;
-}
 
-bool Contact::operator<(const Contact& contact)
-{
-    if (lastContactTime==-1 && contact.lastContactTime==-1) {
-        return Name<contact.Name;
-    } else {
-       return lastContactTime>contact.lastContactTime;
-    }
-}
+public:
+    PhoneNumberUtil();
+    virtual ~PhoneNumberUtil();
+    static bool compare(QString a,QString b);
+    static QString normalizeNumber(QString a);
+    static QString& charToNumber(QString& str);
+private:
+    static QString reverse(QString str);
+};
+
+#endif // PHONENUMBERUTIL_H

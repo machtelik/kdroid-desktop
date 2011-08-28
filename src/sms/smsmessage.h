@@ -28,9 +28,7 @@ class SMSMessage
 public:
     SMSMessage();
     int Id;
-    int ThreadId;
     QString Address;
-    int PersonId;
     QString Body;
     qint64 Time;
     QString Type;

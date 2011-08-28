@@ -123,7 +123,7 @@ void KDroidXmlGui::optionsPreferences()
 void KDroidXmlGui::selectionChanged ( QModelIndex index )
 {
     m_sendview->setAddress ( index.data ( ContactList::Address ).toString() );
-    m_app->getSMSList()->filter ( index.data ( ContactList::ThreadId ).toInt() );
+    m_app->getSMSList()->filter ( index.data ( ContactList::Address ).toString() );
 }
 
 

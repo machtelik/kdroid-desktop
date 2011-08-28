@@ -23,9 +23,7 @@
 SMSMessage::SMSMessage()
 {
     Id=-1;
-    ThreadId=-1;
     Address=" ";
-    PersonId=-1;
     Body=" ";
     Time=-1;
     Type="Outgoing";

@@ -25,11 +25,13 @@
 
 #include <KLocale>
 
+#include "../util/phonenumberutil.h"
+
 SMSList::SMSList ( QObject * parent ) :
         QAbstractListModel ( parent ),
         m_smslist ( new QList<SMSMessage>() ),
         m_filteredlist ( new QList<const SMSMessage*>() ),
-        m_filter ( -2 )
+        m_filter ( "" )
 {
 
 }
@@ -45,8 +47,8 @@ void SMSList::addSMS ( SMSMessage message )
 {
 
     m_smslist->append ( message );
-    emit newContactTime ( message.ThreadId,message.Time );
-    if ( message.ThreadId==m_filter )
+    emit newContactTime ( message.Address,message.Time );
+    if ( PhoneNumberUtil::compare(message.Address,m_filter) )
     {
         sortedInsert ( &m_smslist->last() );
     }
@@ -64,7 +66,7 @@ SMSMessage SMSList::getAt ( int at )
 
 
 
-void SMSList::filter ( int filter )
+void SMSList::filter ( QString filter )
 {
     m_filter=filter;
     beginRemoveRows ( QModelIndex(),0,m_filteredlist->size()-1 );
@@ -73,7 +75,7 @@ void SMSList::filter ( int filter )
 
     for ( int i = 0;i<m_smslist->size();++i )
     {
-        if ( m_smslist->at ( i ).ThreadId==m_filter )
+        if ( PhoneNumberUtil::compare(m_smslist->at ( i ).Address,m_filter) )
         {
             sortedInsert ( &m_smslist->at ( i ) );
         }
@@ -131,12 +133,8 @@ QVariant SMSList::data ( const QModelIndex& index, int role ) const
         return QVariant ( m_filteredlist->at ( index.row() )->Id );
     else if ( role == Time )
         return QVariant ( m_filteredlist->at ( index.row() )->Time );
-    else if ( role == ContactId )
-        return QVariant ( m_filteredlist->at ( index.row() )->PersonId );
-    else if ( role == Address )
+    else if ( role == Address || Qt::ToolTipRole )
         return QVariant ( m_filteredlist->at ( index.row() )->Address );
-    else if ( role == ThreadId )
-        return QVariant ( m_filteredlist->at ( index.row() )->ThreadId );
     else
         return QVariant();
 }

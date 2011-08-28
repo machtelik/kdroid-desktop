@@ -67,7 +67,6 @@ void XMLHandler::writeContacts ( QXmlStreamWriter& writer )
         writer.writeTextElement ( "Address",contact.Address );
         writer.writeTextElement ( "Name",contact.Name );
         writer.writeTextElement ( "lastContactTime",QString::number ( contact.lastContactTime ) );
-        writer.writeTextElement ( "ThreadId",QString::number ( contact.ThreadId ) );
         writer.writeEndElement();
     }
     writer.writeEndElement();
@@ -81,8 +80,6 @@ void XMLHandler::writeSms ( QXmlStreamWriter& writer )
         SMSMessage message = m_smslist->getAt ( i );
         writer.writeStartElement ( "Message" );
         writer.writeTextElement ( "Id",QString::number ( message.Id ) );
-        writer.writeTextElement ( "ThreadId",QString::number ( message.ThreadId ) );
-        writer.writeTextElement ( "ContactId",QString::number ( message.PersonId ) );
         writer.writeTextElement ( "Address",message.Address );
         writer.writeTextElement ( "Body",message.Body );
         writer.writeTextElement ( "Time",QString::number ( message.Time ) );
@@ -164,10 +161,6 @@ Contact XMLHandler::parseContact ( QXmlStreamReader& reader )
             {
                 contact.lastContactTime=parseString ( reader ).toLong();
             }
-            if ( reader.name() == "ThreadId" )
-            {
-                contact.ThreadId=parseString ( reader ).toInt();
-            }
         }
         reader.readNext();
     }
@@ -191,14 +184,6 @@ SMSMessage XMLHandler::parseSMS ( QXmlStreamReader& reader )
             if ( reader.name() == "Id" )
             {
                 message.Id=parseString ( reader ).toInt();
-            }
-            if ( reader.name() == "ThreadId" )
-            {
-                message.ThreadId=parseString ( reader ).toInt();
-            }
-            if ( reader.name() == "ContactId" )
-            {
-                message.PersonId=parseString ( reader ).toInt();
             }
             if ( reader.name() == "Address" )
             {

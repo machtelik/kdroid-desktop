@@ -32,14 +32,14 @@ public:
     virtual ~ContactList();
     virtual int rowCount(const QModelIndex &index) const;
     virtual QVariant data(const QModelIndex &index, int role) const;
-    int getFirstThreadId();
+    QString getFirstAddress();
       int size();
     Contact getAt(int at);
-    enum ContactData {ID=0,Name=25,Address=26,ThreadId=27};
+    enum ContactData {ID=0,Name=25,Address=26};
 public slots:
     void addContact(Contact contact);
     void clear();
-    void updateContactTime(int ThreadId, long time);
+    void updateContactTime(QString address, long time);
 signals:
 private:
   QList<Contact> *m_contactlist;
