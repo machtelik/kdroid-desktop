@@ -49,6 +49,7 @@ public:
     virtual ~KDroidXmlGui();
 
     SendView* getSendView();
+    KDroidView* getMainView();
 
 private slots:
     void optionsPreferences();

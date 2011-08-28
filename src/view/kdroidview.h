@@ -39,6 +39,9 @@ public:
     void setContactModel(ContactList *contacts);
     void setSMSModel(SMSList *sms);
 
+    QListView* getSmsListView();
+    QListView* getContactListView();
+
 private:
     Ui::kdroidview_base ui_kdroidview_base;
 private slots:

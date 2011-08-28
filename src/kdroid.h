@@ -67,6 +67,7 @@ private:
     QString m_saveLocation;
 
     void handleArgs(KCmdLineArgs *args);
+    void activateFirstContact();
 };
 
 #endif // KDROID_H

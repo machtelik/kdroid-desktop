@@ -144,6 +144,11 @@ SendView* KDroidXmlGui::getSendView()
   return m_sendview;
 }
 
+KDroidView* KDroidXmlGui::getMainView()
+{
+  return m_view;
+}
+
 
 
 #include "kdroidxmlgui.moc"

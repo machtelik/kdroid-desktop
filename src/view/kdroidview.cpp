@@ -61,4 +61,15 @@ KDroidView::~KDroidView()
 
 }
 
+QListView* KDroidView::getContactListView()
+{
+  return ui_kdroidview_base.ContactListView;
+}
+
+QListView* KDroidView::getSmsListView()
+{
+  return ui_kdroidview_base.SmsListView;
+}
+
+
 #include "view/kdroidview.moc"

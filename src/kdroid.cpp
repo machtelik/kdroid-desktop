@@ -28,6 +28,8 @@
 
 #include "settings.h"
 
+#include "view/kdroidview.h"
+
 KDroid::KDroid():
         m_timer ( new QTimer() ),
         m_port ( new Port ( this ) ),
@@ -53,7 +55,7 @@ KDroid::KDroid():
 
     if ( m_xmlhandler->load ( m_saveLocation ) )
     {
-        m_smslist->filter ( m_contactlist->getFirstAddress() );
+        activateFirstContact();
     }
 
     settingsChanged();
@@ -108,9 +110,10 @@ void KDroid::newMessage(SMSMessage message)
         showNotification ( "KDroid",i18n ( "New Message" ),"newMessage" );
         qDebug() <<"new Message";
     }
+    m_xmlhandler->save ( m_saveLocation );
+
+    activateFirstContact();
 }
-
-
 
 void KDroid::sendSMS ( SMSMessage message )
 {
@@ -129,7 +132,8 @@ void KDroid::SyncComplete()
     qDebug() <<"Sync Complete";
     connect ( m_port,SIGNAL ( newSMSMessage ( SMSMessage ) ),this,SLOT ( newMessage(SMSMessage) ) );
     showNotification ( "KDroid",i18n ( "Sync complete" ),"syncComplete" );
-    m_smslist->filter ( m_contactlist->getFirstAddress() );
+
+    activateFirstContact();
 
     m_xmlhandler->save ( m_saveLocation );
 
@@ -195,6 +199,14 @@ void KDroid::settingsChanged()
     }
 
 }
+
+void KDroid::activateFirstContact()
+{
+    m_smslist->filter ( m_contactlist->getFirstAddress() );
+    QListView* smsList = m_gui->getMainView()->getContactListView();
+    smsList->setCurrentIndex(smsList->indexAt(QPoint(0,0)));
+}
+
 
 XMLHandler* KDroid::getXMLHandler()
 {
