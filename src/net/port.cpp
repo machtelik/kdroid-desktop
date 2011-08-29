@@ -51,12 +51,13 @@ void Port::send() //Sometimes my HTC Hero doesnt recive the packet. Resend it a 
 {
     qDebug()<<"Sending Packet";
     ++m_retryCount;
-    socket->writeDatagram(m_packets.first().toByteArray(),QHostAddress(ip),port);
     if (m_retryCount>4) {
         m_retryCount=0;
         m_packets.clear();
         emit connectionError();
         m_retryTimer->stop();
+    } else {
+          socket->writeDatagram(m_packets.first().toByteArray(),QHostAddress(ip),port);
     }
 }
 
