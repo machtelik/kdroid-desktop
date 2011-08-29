@@ -23,7 +23,7 @@
 #include <KUniqueApplication>
 #include "view/kdroidxmlgui.h"
 #include "sms/smsmessage.h"
-#include "net/port.h"
+#include "net/udpport.h"
 #include "sms/smslist.h"
 #include "contact/contactlist.h"
 #include "xmlhandler.h"
@@ -55,11 +55,11 @@ public:
     XMLHandler* getXMLHandler();
     ContactList* getContactList();
     SMSList* getSMSList();
-    Port* getPort();
+    UDPPort* getPort();
 private:
     KNotification* m_notify;
     QTimer *m_timer;
-    Port *m_port;
+    UDPPort *m_port;
     SMSList *m_smslist;
     ContactList *m_contactlist;
     XMLHandler *m_xmlhandler;

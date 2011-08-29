@@ -32,7 +32,7 @@
 
 KDroid::KDroid():
         m_timer ( new QTimer() ),
-        m_port ( new Port ( this ) ),
+        m_port ( new UDPPort ( this ) ),
         m_smslist ( new SMSList ( this ) ),
         m_contactlist ( new ContactList ( this ) ),
         m_xmlhandler ( new XMLHandler ( m_contactlist,m_smslist,this ) ),
@@ -225,7 +225,7 @@ SMSList* KDroid::getSMSList()
     return m_smslist;
 }
 
-Port* KDroid::getPort()
+UDPPort* KDroid::getPort()
 {
     return m_port;
 }

@@ -18,9 +18,9 @@
  ***************************************************************************/
 
 
-#include "port.h"
+#include "udpport.h"
 
-Port::Port(QObject *parent):
+UDPPort::UDPPort(QObject *parent):
         QObject(parent),
         m_retryCount(0),
         m_retryTimer(new QTimer()),
@@ -34,12 +34,12 @@ Port::Port(QObject *parent):
 
 }
 
-Port::~Port() {
+UDPPort::~UDPPort() {
     delete socket;
     delete m_retryTimer;
 }
 
-void Port::send(Packet &packet) {
+void UDPPort::send(Packet &packet) {
     m_packets.append(packet);
     if (!m_retryTimer->isActive()) {
         send();
@@ -47,7 +47,7 @@ void Port::send(Packet &packet) {
     }
 }
 
-void Port::send() //Sometimes my HTC Hero doesnt recive the packet. Resend it a few times
+void UDPPort::send() //Sometimes my HTC Hero doesnt recive the packet. Resend it a few times
 {
     qDebug()<<"Sending Packet";
     ++m_retryCount;
@@ -62,7 +62,7 @@ void Port::send() //Sometimes my HTC Hero doesnt recive the packet. Resend it a 
 }
 
 
-void Port::recivedPong()
+void UDPPort::recivedPong()
 {
     qDebug()<<"Recived Pong";
     m_retryCount=0;
@@ -73,20 +73,20 @@ void Port::recivedPong()
 }
 
 
-void Port::setPort(int Port) {
+void UDPPort::setPort(int Port) {
     port=Port;
     socket->close();
     socket->bind(Port);
 }
 
 
-void Port::setIp(QString ip)
+void UDPPort::setIp(QString ip)
 {
     this->ip=ip;
 }
 
 
-void Port::recive() {
+void UDPPort::recive() {
     while (socket->hasPendingDatagrams()) {
         QByteArray datagram;
         datagram.resize(socket->pendingDatagramSize());
@@ -100,7 +100,7 @@ void Port::recive() {
 }
 
 
-void Port::dispatch(Packet packet) {
+void UDPPort::dispatch(Packet packet) {
     if (packet.getType()=="SMS") {
         emit newSMSMessage(packet.toSMSMessage());
         return;

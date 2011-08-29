@@ -33,7 +33,6 @@
 #include "../kdroid.h"
 #include "ui_prefs_base.h"
 #include "sendview.h"
-#include "../net/port.h"
 #include "../sms/smslist.h"
 #include "../contact/contactlist.h"
 #include "../xmlhandler.h"

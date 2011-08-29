@@ -27,12 +27,12 @@
 
 #include "packet.h"
 
-class Port: public QObject
+class UDPPort: public QObject
 {
   Q_OBJECT
 public:
-    Port(QObject * parent = 0);
-    ~Port();
+    UDPPort(QObject * parent = 0);
+    ~UDPPort();
     void send(Packet &packet);
     void setPort(int Port);
     void setIp(QString ip);

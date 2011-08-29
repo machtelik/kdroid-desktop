@@ -10,7 +10,7 @@ set(kdroid_SRCS
    sms/smsmessage.cpp
    sms/smslist.cpp
    net/packet.cpp
-   net/port.cpp
+   net/udpport.cpp
    kdroid.cpp
    xmlhandler.cpp
    main.cpp
