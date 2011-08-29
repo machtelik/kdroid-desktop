@@ -55,7 +55,6 @@ void SendView::Send() {
         message.Address=address;
 	message.Time=QDateTime::currentMSecsSinceEpoch();
         emit sendSMS(message);
-        ui_sendview_base.SmsTextEdit->clear();
     }
 }
 
@@ -66,6 +65,7 @@ void SendView::setAddress(QString address)
 
 void SendView::setBody(QString body)
 {
+  ui_sendview_base.SmsTextEdit->clear();
   ui_sendview_base.SmsTextEdit->setPlainText(body);
 }
 

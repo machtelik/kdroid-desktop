@@ -124,6 +124,7 @@ void KDroid::sendSMS ( SMSMessage message )
 void KDroid::SMSSend()
 {
     showNotification ( "KDroid",i18n ( "SMS send" ),"sendMessage" );
+    m_gui->getSendView()->setBody("");
     qDebug() <<"Message Send";
 }
 
@@ -205,6 +206,7 @@ void KDroid::activateFirstContact()
     m_smslist->filter ( m_contactlist->getFirstAddress() );
     QListView* smsList = m_gui->getMainView()->getContactListView();
     smsList->setCurrentIndex(smsList->indexAt(QPoint(0,0)));
+    m_gui->getSendView()->setAddress(m_contactlist->getFirstAddress());
 }
 
 
