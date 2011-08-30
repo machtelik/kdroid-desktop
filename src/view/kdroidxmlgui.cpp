@@ -59,11 +59,6 @@ KDroidXmlGui::KDroidXmlGui(KDroid *app)
 
     setupGUI();
 
-    QPixmap icon = SmallIcon ( "pda", KIconLoader::SizeMedium );
-    m_trayIcon= new KSystemTrayIcon ( icon,this );
-    m_trayIcon->show();
-
-
     m_view->setContactModel (m_app->getContactList() );
     m_view->setSMSModel ( m_app->getSMSList() );
 

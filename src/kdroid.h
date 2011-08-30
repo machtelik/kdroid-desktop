@@ -21,6 +21,10 @@
 #define KDROID_H
 
 #include <KUniqueApplication>
+#include <KNotification>
+#include <KCmdLineArgs>
+#include <KStatusNotifierItem>
+
 #include "view/kdroidxmlgui.h"
 #include "sms/smsmessage.h"
 #include "net/udpport.h"
@@ -28,7 +32,6 @@
 #include "contact/contactlist.h"
 #include "xmlhandler.h"
 
-#include <KCmdLineArgs>
 
 class KDroidXmlGui;
 
@@ -47,7 +50,7 @@ public slots:
 private slots:
     void SMSSend();
     void SyncComplete();
-    void showNotification(QString title, QString message, QString type);
+    void showNotification(QString message, QString type);
     void ackGetAll();
     void noConnection();
     void newMessage(SMSMessage message);
@@ -65,6 +68,8 @@ private:
     XMLHandler *m_xmlhandler;
     KDroidXmlGui *m_gui;
     QString m_saveLocation;
+    KStatusNotifierItem *m_statusNotifier;
+
 
     void handleArgs(KCmdLineArgs *args);
     void activateFirstContact();

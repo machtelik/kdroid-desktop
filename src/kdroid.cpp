@@ -29,6 +29,7 @@
 #include "settings.h"
 
 #include "view/kdroidview.h"
+#include <KActionCollection>
 
 KDroid::KDroid():
         m_timer ( new QTimer() ),
@@ -36,7 +37,8 @@ KDroid::KDroid():
         m_smslist ( new SMSList ( this ) ),
         m_contactlist ( new ContactList ( this ) ),
         m_xmlhandler ( new XMLHandler ( m_contactlist,m_smslist,this ) ),
-        m_gui(new KDroidXmlGui(this))
+        m_gui(new KDroidXmlGui(this)),
+        m_statusNotifier(new KStatusNotifierItem(this))
 {
 
     m_saveLocation = KStandardDirs().saveLocation ( "data",qAppName() ).append ( "kdroidData.xml" );
@@ -59,12 +61,20 @@ KDroid::KDroid():
     }
 
     settingsChanged();
+
+    m_statusNotifier->setIconByName("pda");
+    m_statusNotifier->setCategory(KStatusNotifierItem::Communications);
+    m_statusNotifier->setStatus(KStatusNotifierItem::Passive);
+    m_statusNotifier->setAssociatedWidget(m_gui);
 }
 
 KDroid::~KDroid()
 {
     if (m_gui) {
         delete m_gui;
+    }
+    if(m_statusNotifier) {
+      delete m_statusNotifier;
     }
     qDebug()<<"Bye Bye";
 }
@@ -107,7 +117,7 @@ void KDroid::handleArgs(KCmdLineArgs* args)
 void KDroid::newMessage(SMSMessage message)
 {
     if (message.Type=="Incoming") {
-        showNotification ( "KDroid",i18n ( "New Message" ),"newMessage" );
+        showNotification ( i18n ( "New Message" ),"newMessage" );
         qDebug() <<"new Message";
     }
     m_xmlhandler->save ( m_saveLocation );
@@ -123,7 +133,7 @@ void KDroid::sendSMS ( SMSMessage message )
 
 void KDroid::SMSSend()
 {
-    showNotification ( "KDroid",i18n ( "SMS send" ),"sendMessage" );
+    showNotification ( i18n ( "SMS send" ),"sendMessage" );
     m_gui->getSendView()->setBody("");
     qDebug() <<"Message Send";
 }
@@ -132,7 +142,7 @@ void KDroid::SyncComplete()
 {
     qDebug() <<"Sync Complete";
     connect ( m_port,SIGNAL ( newSMSMessage ( SMSMessage ) ),this,SLOT ( newMessage(SMSMessage) ) );
-    showNotification ( "KDroid",i18n ( "Sync complete" ),"syncComplete" );
+    showNotification ( i18n ( "Sync complete" ),"syncComplete" );
 
     activateFirstContact();
 
@@ -168,19 +178,12 @@ void KDroid::noConnection()
     {
         m_timer->stop();
     }
-    showNotification ( "KDroid",i18n ( "Device unreachable" ),"noConnection" );
+    showNotification ( i18n ( "Device unreachable" ),"noConnection" );
 }
 
-
-
-void KDroid::showNotification ( QString title, QString message, QString type )
+void KDroid::showNotification ( QString message, QString type )
 {
-    m_notify = new KNotification ( type );
-    m_notify->setTitle ( title );
-    m_notify->setText ( message );
-    m_notify->setPixmap ( SmallIcon ( "pda", KIconLoader::SizeMedium ) );
-    m_notify->sendEvent();
-
+    KNotification::event(type,message,SmallIcon ( "pda", KIconLoader::SizeMedium ),m_gui);
 }
 
 void KDroid::settingsChanged()

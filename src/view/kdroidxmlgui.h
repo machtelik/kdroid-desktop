@@ -25,8 +25,6 @@
 #include <QList>
 #include <QTreeWidgetItem>
 #include <QTimer>
-#include <KNotification>
-#include <KSystemTrayIcon>
 #include <QModelIndex>
 #include <KAction>
 
@@ -62,7 +60,6 @@ private:
     Ui::prefs_base ui_prefs_base ;
     KDroidView *m_view;
     SendView *m_sendview;
-    KSystemTrayIcon *m_trayIcon;
 
     KAction *sync;
 
