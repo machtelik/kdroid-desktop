@@ -48,6 +48,7 @@ protected:
     QStringList arguments;
     QString type;
     QChar seperator;
+    QChar packetSeperator;
 };
 
 #endif // PACKET_H

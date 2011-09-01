@@ -17,46 +17,36 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .        *
  ***************************************************************************/
 
+#include "tcpserverport.h"
 
-#ifndef PORT_H
-#define PORT_H
+#include "settings.h"
 
-#include <QUdpSocket>
-#include <QObject>
-#include <QTimer>
-
-#include "packet.h"
-
-class UDPPort: public QObject
+TCPServerPort::TCPServerPort(Dispatcher *dispatcher, QObject* parent):
+        TCPPort(dispatcher,parent),
+        m_serversocket(new QTcpServer(this))
 {
-  Q_OBJECT
-public:
-    UDPPort(QObject * parent = 0);
-    ~UDPPort();
-    void send(Packet &packet);
-    void setPort(int Port);
-    void setIp(QString ip);
-private slots:
-    void recive();
-    void recivedPong();
-    void send();
-signals:
-    void newSMSMessage(SMSMessage message);
-    void newContact(Contact contact);
-    void doneGetAll();
-    void ackGetAll();
-    void pong();
-    void connectionError();
-    void SMSSend();
-private:
-    void dispatch(Packet packet);
-    int port;
-    QString ip;
-    int m_retryCount;
-    QTimer *m_retryTimer;
-    QList<Packet> m_packets;
-    QUdpSocket *socket;
-};
+    m_socket=0;
+    m_serversocket->listen(QHostAddress::Any,Settings::port());
+    connect(m_serversocket,SIGNAL(newConnection()),this,SLOT(connected()));
+}
 
-#endif // PORT_H
+TCPServerPort::~TCPServerPort()
+{
 
+}
+
+void TCPServerPort::setPort(int port)
+{
+    m_port=port;
+    m_serversocket->close();
+    m_serversocket->listen(QHostAddress::Any,port);
+}
+
+void TCPServerPort::connected()
+{
+    if (m_serversocket->hasPendingConnections()) {
+        m_socket=m_serversocket->nextPendingConnection();
+        connect(m_socket,SIGNAL(readyRead()),this,SLOT(recive()));
+        //connect(m_socket,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(handleError(QAbstractSocket::SocketError)));
+    }
+}

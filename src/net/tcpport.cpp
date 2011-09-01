@@ -17,54 +17,39 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .        *
  ***************************************************************************/
 
-#ifndef KDROIDXMLGUI_H
-#define KDROIDXMLGUI_H
 
+#include "tcpport.h"
 
-#include <KXmlGuiWindow>
-#include <QList>
-#include <QTreeWidgetItem>
-#include <QTimer>
-#include <QModelIndex>
-#include <KAction>
-
-#include "../kdroid.h"
-#include "ui_prefs_base.h"
-#include "sendview.h"
-#include "../sms/smslist.h"
-#include "../contact/contactlist.h"
-#include "../xmlhandler.h"
-
-class KDroidView;
-class KDroid;
-
-class KDroidXmlGui : public KXmlGuiWindow
+TCPPort::TCPPort(Dispatcher *dispatcher, QObject* parent):
+        QObject(parent),
+        m_dispatcher(dispatcher),
+        packetSeparator(31)
 {
-    Q_OBJECT
-public:
-    KDroidXmlGui(KDroid *app);
-    virtual ~KDroidXmlGui();
+}
 
-    SendView* getSendView();
-    KDroidView* getMainView();
-    void setEnableSyncButton(bool b);
+TCPPort::~TCPPort() {
+    delete m_socket;
+}
 
-private slots:
-    void optionsPreferences();
-    void closeEvent(QCloseEvent *event);
-    void xmlExport();
-    void selectionChanged(QModelIndex index);
+void TCPPort::recive() {
+    while (m_socket->bytesAvailable()) {
+        m_buffer.append(m_socket->readAll());
+    }
+    QList<QByteArray> data = m_buffer.split(packetSeparator);
+    if (data.size()>1) {
+        for (int i = 0;i<data.size()-1;++i) {
+            m_dispatcher->dispatch(Packet(data.at(i)));
+        }
+        m_buffer.clear();
+        if (data.last().size()>0) {
+            m_buffer.append(data.last());
+        }
+    }
+}
 
-private:
-    void setupActions();
-
-    Ui::prefs_base ui_prefs_base ;
-    KDroidView *m_view;
-    SendView *m_sendview;
-
-    KAction *sync;
-
-    KDroid *m_app;
-};
-
-#endif // _KDROIDXMLGUI_H_
+void TCPPort::handleError(QAbstractSocket::SocketError )
+{
+    if (QAbstractSocket::HostNotFoundError) {
+        emit connectionError();
+    }
+}

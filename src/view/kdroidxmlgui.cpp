@@ -136,13 +136,19 @@ void KDroidXmlGui::closeEvent ( QCloseEvent *event )
 
 SendView* KDroidXmlGui::getSendView()
 {
-  return m_sendview;
+    return m_sendview;
 }
 
 KDroidView* KDroidXmlGui::getMainView()
 {
-  return m_view;
+    return m_view;
 }
+
+void KDroidXmlGui::setEnableSyncButton(bool b)
+{
+  sync->setEnabled(b);
+}
+
 
 
 

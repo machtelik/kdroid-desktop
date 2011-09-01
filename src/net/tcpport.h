@@ -17,54 +17,37 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .        *
  ***************************************************************************/
 
-#ifndef KDROIDXMLGUI_H
-#define KDROIDXMLGUI_H
 
+#ifndef PORT_H
+#define PORT_H
 
-#include <KXmlGuiWindow>
-#include <QList>
-#include <QTreeWidgetItem>
+#include <QTcpSocket>
+#include <QObject>
 #include <QTimer>
-#include <QModelIndex>
-#include <KAction>
 
-#include "../kdroid.h"
-#include "ui_prefs_base.h"
-#include "sendview.h"
-#include "../sms/smslist.h"
-#include "../contact/contactlist.h"
-#include "../xmlhandler.h"
+#include "packet.h"
+#include "dispatcher.h"
 
-class KDroidView;
-class KDroid;
-
-class KDroidXmlGui : public KXmlGuiWindow
+class TCPPort: public QObject
 {
     Q_OBJECT
 public:
-    KDroidXmlGui(KDroid *app);
-    virtual ~KDroidXmlGui();
-
-    SendView* getSendView();
-    KDroidView* getMainView();
-    void setEnableSyncButton(bool b);
-
-private slots:
-    void optionsPreferences();
-    void closeEvent(QCloseEvent *event);
-    void xmlExport();
-    void selectionChanged(QModelIndex index);
-
-private:
-    void setupActions();
-
-    Ui::prefs_base ui_prefs_base ;
-    KDroidView *m_view;
-    SendView *m_sendview;
-
-    KAction *sync;
-
-    KDroid *m_app;
+    TCPPort(Dispatcher *dispatcher,QObject * parent = 0);
+    ~TCPPort();
+protected slots:
+    void recive();
+    void handleError(QAbstractSocket::SocketError);
+public slots:
+      virtual void setPort(int port) = 0;
+signals:
+    void connectionError();
+protected:
+    Dispatcher *m_dispatcher;
+    QTcpSocket *m_socket;
+    QByteArray m_buffer;
+    int packetSeparator;
+    int m_port;
 };
 
-#endif // _KDROIDXMLGUI_H_
+#endif // PORT_H
+

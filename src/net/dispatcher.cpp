@@ -17,90 +17,17 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .        *
  ***************************************************************************/
 
+#include "dispatcher.h"
 
-#include "udpport.h"
+#include <QDebug>
 
-UDPPort::UDPPort(QObject *parent):
-        QObject(parent),
-        m_retryCount(0),
-        m_retryTimer(new QTimer()),
-        socket(new QUdpSocket())
+Dispatcher::Dispatcher(QObject* parent):
+        QObject(parent)
 {
-    connect(this,SIGNAL(pong()),this,SLOT(recivedPong()));
-    connect(socket,SIGNAL(readyRead()),this,SLOT(recive()));
-
-    connect(m_retryTimer, SIGNAL(timeout()), this, SLOT(send()));
-    m_retryTimer->setInterval(3000);
 
 }
 
-UDPPort::~UDPPort() {
-    delete socket;
-    delete m_retryTimer;
-}
-
-void UDPPort::send(Packet &packet) {
-    m_packets.append(packet);
-    if (!m_retryTimer->isActive()) {
-        send();
-        m_retryTimer->start();
-    }
-}
-
-void UDPPort::send() //Sometimes my HTC Hero doesnt recive the packet. Resend it a few times
-{
-    qDebug()<<"Sending Packet";
-    ++m_retryCount;
-    if (m_retryCount>4) {
-        m_retryCount=0;
-        m_packets.clear();
-        emit connectionError();
-        m_retryTimer->stop();
-    } else {
-          socket->writeDatagram(m_packets.first().toByteArray(),QHostAddress(ip),port);
-    }
-}
-
-
-void UDPPort::recivedPong()
-{
-    qDebug()<<"Recived Pong";
-    m_retryCount=0;
-    m_retryTimer->stop();
-    if (!m_packets.isEmpty()) {
-        m_packets.removeFirst();
-    }
-}
-
-
-void UDPPort::setPort(int Port) {
-    port=Port;
-    socket->close();
-    socket->bind(Port);
-}
-
-
-void UDPPort::setIp(QString ip)
-{
-    this->ip=ip;
-}
-
-
-void UDPPort::recive() {
-    while (socket->hasPendingDatagrams()) {
-        QByteArray datagram;
-        datagram.resize(socket->pendingDatagramSize());
-        QHostAddress sender;
-        quint16 senderPort;
-
-        socket->readDatagram(datagram.data(), datagram.size(),&sender, &senderPort);
-
-        dispatch( Packet(datagram) );
-    }
-}
-
-
-void UDPPort::dispatch(Packet packet) {
+void Dispatcher::dispatch(Packet packet) {
     if (packet.getType()=="SMS") {
         emit newSMSMessage(packet.toSMSMessage());
         return;
@@ -110,10 +37,6 @@ void UDPPort::dispatch(Packet packet) {
         return;
     }
     if (packet.getType()=="Status") {
-        if (packet.getFirstArgument()=="Pong") {
-            emit pong();
-            return;
-        }
         if (packet.getFirstArgument()=="AckGetAll") {
             emit ackGetAll();
             return;
@@ -128,5 +51,8 @@ void UDPPort::dispatch(Packet packet) {
         }
     }
     qDebug()<<"Unknown Packet: "<<packet.getType();
-
 }
+
+
+
+

@@ -27,10 +27,13 @@
 
 #include "view/kdroidxmlgui.h"
 #include "sms/smsmessage.h"
-#include "net/udpport.h"
+#include "net/tcpport.h"
 #include "sms/smslist.h"
 #include "contact/contactlist.h"
 #include "xmlhandler.h"
+#include "net/dispatcher.h"
+#include "net/tcpclientport.h"
+#include "net/tcpserverport.h"
 
 
 class KDroidXmlGui;
@@ -58,18 +61,19 @@ public:
     XMLHandler* getXMLHandler();
     ContactList* getContactList();
     SMSList* getSMSList();
-    UDPPort* getPort();
+    TCPPort* getPort();
 private:
     KNotification* m_notify;
     QTimer *m_timer;
-    UDPPort *m_port;
+    Dispatcher *m_dispatcher;
+    TCPClientPort *m_clientport;
+    TCPServerPort * m_serverport;
     SMSList *m_smslist;
     ContactList *m_contactlist;
     XMLHandler *m_xmlhandler;
     KDroidXmlGui *m_gui;
     QString m_saveLocation;
     KStatusNotifierItem *m_statusNotifier;
-
 
     void handleArgs(KCmdLineArgs *args);
     void activateFirstContact();

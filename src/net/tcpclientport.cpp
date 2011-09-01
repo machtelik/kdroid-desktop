@@ -17,54 +17,48 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .        *
  ***************************************************************************/
 
-#ifndef KDROIDXMLGUI_H
-#define KDROIDXMLGUI_H
+#include "tcpclientport.h"
 
-
-#include <KXmlGuiWindow>
-#include <QList>
-#include <QTreeWidgetItem>
-#include <QTimer>
-#include <QModelIndex>
-#include <KAction>
-
-#include "../kdroid.h"
-#include "ui_prefs_base.h"
-#include "sendview.h"
-#include "../sms/smslist.h"
-#include "../contact/contactlist.h"
-#include "../xmlhandler.h"
-
-class KDroidView;
-class KDroid;
-
-class KDroidXmlGui : public KXmlGuiWindow
+TCPClientPort::TCPClientPort(Dispatcher *dispatcher, QObject* parent):
+        TCPPort(dispatcher,parent)
 {
-    Q_OBJECT
-public:
-    KDroidXmlGui(KDroid *app);
-    virtual ~KDroidXmlGui();
+    m_socket = new QTcpSocket(this);
+    connect(m_socket,SIGNAL(readyRead()),this,SLOT(recive()));
+    connect(m_socket,SIGNAL(connected()),this,SLOT(startTransfer()));
+    connect(m_socket,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(handleError(QAbstractSocket::SocketError)));
+}
 
-    SendView* getSendView();
-    KDroidView* getMainView();
-    void setEnableSyncButton(bool b);
+TCPClientPort::~TCPClientPort()
+{
 
-private slots:
-    void optionsPreferences();
-    void closeEvent(QCloseEvent *event);
-    void xmlExport();
-    void selectionChanged(QModelIndex index);
+}
 
-private:
-    void setupActions();
+void TCPClientPort::setPort(int port) {
+    m_port=port;
+}
 
-    Ui::prefs_base ui_prefs_base ;
-    KDroidView *m_view;
-    SendView *m_sendview;
 
-    KAction *sync;
+void TCPClientPort::setIp(QString ip)
+{
+    this->m_ip=ip;
+}
 
-    KDroid *m_app;
-};
+void TCPClientPort::clientConnect()
+{
+    m_socket->abort();
+    m_socket->close();
+    m_socket->connectToHost(m_ip,m_port);
+}
 
-#endif // _KDROIDXMLGUI_H_
+void TCPClientPort::send(Packet &packet) {
+    qDebug()<<"Sending Packet";
+    packetBuffer.append(packet);
+    clientConnect();
+}
+
+void TCPClientPort::startTransfer()
+{
+    while (!packetBuffer.isEmpty()) {
+        m_socket->write(packetBuffer.takeFirst().toByteArray());
+    }
+}

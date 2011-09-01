@@ -17,54 +17,27 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .        *
  ***************************************************************************/
 
-#ifndef KDROIDXMLGUI_H
-#define KDROIDXMLGUI_H
+#ifndef TCPCLIENTPORT_H
+#define TCPCLIENTPORT_H
 
+#include "tcpport.h"
 
-#include <KXmlGuiWindow>
-#include <QList>
-#include <QTreeWidgetItem>
-#include <QTimer>
-#include <QModelIndex>
-#include <KAction>
-
-#include "../kdroid.h"
-#include "ui_prefs_base.h"
-#include "sendview.h"
-#include "../sms/smslist.h"
-#include "../contact/contactlist.h"
-#include "../xmlhandler.h"
-
-class KDroidView;
-class KDroid;
-
-class KDroidXmlGui : public KXmlGuiWindow
+class TCPClientPort: public TCPPort
 {
-    Q_OBJECT
+Q_OBJECT
 public:
-    KDroidXmlGui(KDroid *app);
-    virtual ~KDroidXmlGui();
-
-    SendView* getSendView();
-    KDroidView* getMainView();
-    void setEnableSyncButton(bool b);
-
-private slots:
-    void optionsPreferences();
-    void closeEvent(QCloseEvent *event);
-    void xmlExport();
-    void selectionChanged(QModelIndex index);
-
+    TCPClientPort(Dispatcher *dispatcher, QObject* parent = 0);
+    virtual ~TCPClientPort();
+    void send(Packet &packet);
+public slots:
+    virtual void setPort(int port);
+    void setIp(QString ip);
 private:
-    void setupActions();
-
-    Ui::prefs_base ui_prefs_base ;
-    KDroidView *m_view;
-    SendView *m_sendview;
-
-    KAction *sync;
-
-    KDroid *m_app;
+    QString m_ip;
+    QList<Packet> packetBuffer;
+private slots:
+    void startTransfer();
+    void clientConnect();
 };
 
-#endif // _KDROIDXMLGUI_H_
+#endif // TCPCLIENTPORT_H

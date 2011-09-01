@@ -33,7 +33,9 @@
 
 KDroid::KDroid():
         m_timer ( new QTimer() ),
-        m_port ( new UDPPort ( this ) ),
+        m_dispatcher(new Dispatcher(this)),
+        m_clientport ( new TCPClientPort ( m_dispatcher,this ) ),
+        m_serverport(new TCPServerPort(m_dispatcher,this)),
         m_smslist ( new SMSList ( this ) ),
         m_contactlist ( new ContactList ( this ) ),
         m_xmlhandler ( new XMLHandler ( m_contactlist,m_smslist,this ) ),
@@ -43,13 +45,15 @@ KDroid::KDroid():
 
     m_saveLocation = KStandardDirs().saveLocation ( "data",qAppName() ).append ( "kdroidData.xml" );
 
-    connect ( m_port,SIGNAL ( newSMSMessage ( SMSMessage ) ),m_smslist,SLOT ( addSMS ( SMSMessage ) ) );
-    connect ( m_port,SIGNAL ( newContact ( Contact ) ),m_contactlist,SLOT ( addContact ( Contact ) ) );
-    connect ( m_port,SIGNAL ( ackGetAll() ),this,SLOT ( ackGetAll() ) );
-    connect ( m_port,SIGNAL ( connectionError() ),this,SLOT ( noConnection() ) );
-    connect ( m_port,SIGNAL ( SMSSend() ),this,SLOT ( SMSSend() ) );
-    connect ( m_port,SIGNAL ( doneGetAll() ),this,SLOT ( SyncComplete() ) );
-    connect ( m_port,SIGNAL ( newSMSMessage ( SMSMessage ) ),this,SLOT ( newMessage(SMSMessage) ) );
+    connect ( m_dispatcher,SIGNAL ( newSMSMessage ( SMSMessage ) ),m_smslist,SLOT ( addSMS ( SMSMessage ) ) );
+    connect ( m_dispatcher,SIGNAL ( newContact ( Contact ) ),m_contactlist,SLOT ( addContact ( Contact ) ) );
+    connect ( m_dispatcher,SIGNAL ( ackGetAll() ),this,SLOT ( ackGetAll() ) );
+    connect ( m_dispatcher,SIGNAL ( SMSSend() ),this,SLOT ( SMSSend() ) );
+    connect ( m_dispatcher,SIGNAL ( doneGetAll() ),this,SLOT ( SyncComplete() ) );
+    connect ( m_dispatcher,SIGNAL ( newSMSMessage ( SMSMessage ) ),this,SLOT ( newMessage(SMSMessage) ) );
+
+    connect ( m_clientport,SIGNAL ( connectionError() ),this,SLOT ( noConnection() ) );
+    connect ( m_serverport,SIGNAL ( connectionError() ),this,SLOT ( noConnection() ) );
 
     connect ( m_smslist,SIGNAL ( newContact ( QString,long ) ),m_contactlist,SLOT ( updateContacts ( QString,long ) ) );
 
@@ -73,8 +77,8 @@ KDroid::~KDroid()
     if (m_gui) {
         delete m_gui;
     }
-    if(m_statusNotifier) {
-      delete m_statusNotifier;
+    if (m_statusNotifier) {
+        delete m_statusNotifier;
     }
     qDebug()<<"Bye Bye";
 }
@@ -128,7 +132,7 @@ void KDroid::newMessage(SMSMessage message)
 void KDroid::sendSMS ( SMSMessage message )
 {
     Packet packet = Packet ( message );
-    m_port->send ( packet );
+    m_clientport->send ( packet );
 }
 
 void KDroid::SMSSend()
@@ -141,19 +145,22 @@ void KDroid::SMSSend()
 void KDroid::SyncComplete()
 {
     qDebug() <<"Sync Complete";
-    connect ( m_port,SIGNAL ( newSMSMessage ( SMSMessage ) ),this,SLOT ( newMessage(SMSMessage) ) );
+    connect ( m_dispatcher,SIGNAL ( newSMSMessage ( SMSMessage ) ),this,SLOT ( newMessage(SMSMessage) ) );
     showNotification ( i18n ( "Sync complete" ),"syncComplete" );
 
     activateFirstContact();
 
     m_xmlhandler->save ( m_saveLocation );
 
+    m_gui->setEnableSyncButton(true);
+
 }
 
 void KDroid::SyncSms()
 {
     qDebug() <<"Sync start";
-    disconnect ( m_port,SIGNAL ( newSMSMessage ( SMSMessage ) ),this,SLOT ( newMessage(SMSMessage) ) );
+    m_gui->setEnableSyncButton(false);
+    disconnect ( m_dispatcher,SIGNAL ( newSMSMessage ( SMSMessage ) ),this,SLOT ( newMessage(SMSMessage) ) );
     if ( Settings::auto_sync() && !m_timer->isActive() )
     {
         m_timer->setInterval ( Settings::timer_interval() *60000 );
@@ -161,7 +168,7 @@ void KDroid::SyncSms()
     }
     Packet packet =  Packet ( QString ( "Request" ) );
     packet.addArgument ( "getAll" );
-    m_port->send ( packet );
+    m_clientport->send ( packet );
 }
 
 void KDroid::ackGetAll()
@@ -174,6 +181,7 @@ void KDroid::ackGetAll()
 void KDroid::noConnection()
 {
     qDebug() <<"No connection";
+    m_gui->setEnableSyncButton(true);
     if ( m_timer->isActive() )
     {
         m_timer->stop();
@@ -189,8 +197,9 @@ void KDroid::showNotification ( QString message, QString type )
 void KDroid::settingsChanged()
 {
     qDebug() <<"Settings Changed";
-    m_port->setPort ( Settings::port() );
-    m_port->setIp ( Settings::ip_address() );
+    m_clientport->setPort ( Settings::port() );
+    m_clientport->setIp ( Settings::ip_address() );
+    m_serverport->setPort(Settings::port());
     if ( Settings::auto_sync() )
     {
         m_timer->setInterval ( Settings::timer_interval() *60000 );
@@ -228,9 +237,9 @@ SMSList* KDroid::getSMSList()
     return m_smslist;
 }
 
-UDPPort* KDroid::getPort()
+TCPPort* KDroid::getPort()
 {
-    return m_port;
+    return m_clientport;
 }
 
 #include "kdroid.moc"

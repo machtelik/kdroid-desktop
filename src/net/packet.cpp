@@ -23,13 +23,15 @@
 #include <QDebug>
 
 Packet::Packet(QString type):
-        seperator(30)
+        seperator(30),
+        packetSeperator(31)
 {
     this->type=type;
 }
 
 Packet::Packet(QByteArray data):
-        seperator(30)
+        seperator(30),
+        packetSeperator(31)
 {
 
     QStringList list = QString::fromUtf8(data).split(seperator);
@@ -40,7 +42,8 @@ Packet::Packet(QByteArray data):
 }
 
 Packet::Packet(SMSMessage message):
-seperator(30)
+        seperator(30),
+        packetSeperator(31)
 {
     type="SMS";
     addArgument(QString::number(message.Id));
@@ -82,11 +85,11 @@ SMSMessage Packet::toSMSMessage() {
 
 Contact Packet::toContact()
 {
-  Contact contact;
-  contact.Id=arguments.at(0).toInt();
-  contact.Name=arguments.at(1);
-  contact.Address=arguments.at(2);
-  return contact;
+    Contact contact;
+    contact.Id=arguments.at(0).toInt();
+    contact.Name=arguments.at(1);
+    contact.Address=arguments.at(2);
+    return contact;
 }
 
 
@@ -99,6 +102,7 @@ QByteArray Packet::toByteArray()
         bytes.append(arguments.at(i));
         bytes.append(seperator);
     }
+    bytes.append(packetSeperator);
     return bytes;
 }
 
