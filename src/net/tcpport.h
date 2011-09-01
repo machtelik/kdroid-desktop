@@ -45,7 +45,6 @@ protected:
     Dispatcher *m_dispatcher;
     QTcpSocket *m_socket;
     QByteArray m_buffer;
-    int packetSeparator;
     int m_port;
 };
 

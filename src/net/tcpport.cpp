@@ -22,8 +22,7 @@
 
 TCPPort::TCPPort(Dispatcher *dispatcher, QObject* parent):
         QObject(parent),
-        m_dispatcher(dispatcher),
-        packetSeparator(31)
+        m_dispatcher(dispatcher)
 {
 }
 

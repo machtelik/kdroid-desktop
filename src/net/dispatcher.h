@@ -34,9 +34,11 @@ public slots:
 signals:
     void SMSSend();
     void newSMSMessage(SMSMessage message);
+    void newSMSMessage();
     void newContact(Contact contact);
     void doneGetAll();
     void ackGetAll();
+    void closeConnection();
 };
 
 #endif // DISPATCHER_H

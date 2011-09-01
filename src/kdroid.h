@@ -56,7 +56,7 @@ private slots:
     void showNotification(QString message, QString type);
     void ackGetAll();
     void noConnection();
-    void newMessage(SMSMessage message);
+    void newMessage();
 public:
     XMLHandler* getXMLHandler();
     ContactList* getContactList();

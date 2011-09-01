@@ -29,6 +29,9 @@
 #include "../sms/smsmessage.h"
 #include "../contact/contact.h"
 
+#define packetSeparator 31
+#define seperator 30
+
 class Packet
 {
 public:
@@ -47,8 +50,6 @@ public:
 protected:
     QStringList arguments;
     QString type;
-    QChar seperator;
-    QChar packetSeperator;
 };
 
 #endif // PACKET_H

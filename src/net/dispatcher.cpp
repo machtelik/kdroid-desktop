@@ -49,6 +49,14 @@ void Dispatcher::dispatch(Packet packet) {
             emit SMSSend();
             return;
         }
+        if (packet.getFirstArgument()=="newSMSMessage") {
+            emit newSMSMessage();
+            return;
+        }
+        if (packet.getFirstArgument()=="end") {
+            emit closeConnection();
+            return;
+        }
     }
     qDebug()<<"Unknown Packet: "<<packet.getType();
 }

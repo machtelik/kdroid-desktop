@@ -26,6 +26,7 @@ TCPClientPort::TCPClientPort(Dispatcher *dispatcher, QObject* parent):
     connect(m_socket,SIGNAL(readyRead()),this,SLOT(recive()));
     connect(m_socket,SIGNAL(connected()),this,SLOT(startTransfer()));
     connect(m_socket,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(handleError(QAbstractSocket::SocketError)));
+    connect(m_dispatcher,SIGNAL(closeConnection()),this,SLOT(disconnectSocket()));
 }
 
 TCPClientPort::~TCPClientPort()
@@ -43,22 +44,27 @@ void TCPClientPort::setIp(QString ip)
     this->m_ip=ip;
 }
 
-void TCPClientPort::clientConnect()
+void TCPClientPort::connectSocket()
 {
-    m_socket->abort();
-    m_socket->close();
+    qDebug()<<"Connecting..";
     m_socket->connectToHost(m_ip,m_port);
 }
 
+void TCPClientPort::disconnectSocket()
+{
+  m_socket->close();
+}
+
+
 void TCPClientPort::send(Packet &packet) {
-    qDebug()<<"Sending Packet";
     packetBuffer.append(packet);
-    clientConnect();
+    connectSocket();
 }
 
 void TCPClientPort::startTransfer()
 {
     while (!packetBuffer.isEmpty()) {
         m_socket->write(packetBuffer.takeFirst().toByteArray());
+        qDebug()<<"Sending Packet";
     }
 }

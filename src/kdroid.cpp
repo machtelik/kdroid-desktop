@@ -50,7 +50,7 @@ KDroid::KDroid():
     connect ( m_dispatcher,SIGNAL ( ackGetAll() ),this,SLOT ( ackGetAll() ) );
     connect ( m_dispatcher,SIGNAL ( SMSSend() ),this,SLOT ( SMSSend() ) );
     connect ( m_dispatcher,SIGNAL ( doneGetAll() ),this,SLOT ( SyncComplete() ) );
-    connect ( m_dispatcher,SIGNAL ( newSMSMessage ( SMSMessage ) ),this,SLOT ( newMessage(SMSMessage) ) );
+    connect ( m_dispatcher,SIGNAL ( newSMSMessage () ),this,SLOT ( newMessage() ) );
 
     connect ( m_clientport,SIGNAL ( connectionError() ),this,SLOT ( noConnection() ) );
     connect ( m_serverport,SIGNAL ( connectionError() ),this,SLOT ( noConnection() ) );
@@ -118,12 +118,10 @@ void KDroid::handleArgs(KCmdLineArgs* args)
     }
 }
 
-void KDroid::newMessage(SMSMessage message)
+void KDroid::newMessage()
 {
-    if (message.Type=="Incoming") {
-        showNotification ( i18n ( "New Message" ),"newMessage" );
-        qDebug() <<"new Message";
-    }
+    showNotification ( i18n ( "New Message" ),"newMessage" );
+    qDebug() <<"new Message";
     m_xmlhandler->save ( m_saveLocation );
 
     activateFirstContact();
@@ -145,7 +143,6 @@ void KDroid::SMSSend()
 void KDroid::SyncComplete()
 {
     qDebug() <<"Sync Complete";
-    connect ( m_dispatcher,SIGNAL ( newSMSMessage ( SMSMessage ) ),this,SLOT ( newMessage(SMSMessage) ) );
     showNotification ( i18n ( "Sync complete" ),"syncComplete" );
 
     activateFirstContact();
@@ -160,7 +157,6 @@ void KDroid::SyncSms()
 {
     qDebug() <<"Sync start";
     m_gui->setEnableSyncButton(false);
-    disconnect ( m_dispatcher,SIGNAL ( newSMSMessage ( SMSMessage ) ),this,SLOT ( newMessage(SMSMessage) ) );
     if ( Settings::auto_sync() && !m_timer->isActive() )
     {
         m_timer->setInterval ( Settings::timer_interval() *60000 );

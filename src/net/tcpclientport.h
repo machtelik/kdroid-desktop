@@ -37,7 +37,8 @@ private:
     QList<Packet> packetBuffer;
 private slots:
     void startTransfer();
-    void clientConnect();
+    void connectSocket();
+    void disconnectSocket();
 };
 
 #endif // TCPCLIENTPORT_H
