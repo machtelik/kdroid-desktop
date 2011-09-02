@@ -49,7 +49,7 @@ void Dispatcher::dispatch(Packet packet) {
             emit SMSSend();
             return;
         }
-        if (packet.getFirstArgument()=="newSMSMessage") {
+        if (packet.getFirstArgument()=="newMessage") {
             emit newSMSMessage();
             return;
         }
@@ -59,6 +59,9 @@ void Dispatcher::dispatch(Packet packet) {
         }
     }
     qDebug()<<"Unknown Packet: "<<packet.getType();
+    if(packet.getArguments()->size()>0) {
+      qDebug()<<"Packet Data: "<<packet.getFirstArgument();
+    }
 }
 
 

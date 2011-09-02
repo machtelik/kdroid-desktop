@@ -26,6 +26,7 @@ TCPClientPort::TCPClientPort(Dispatcher *dispatcher, QObject* parent):
     connect(m_socket,SIGNAL(readyRead()),this,SLOT(recive()));
     connect(m_socket,SIGNAL(connected()),this,SLOT(startTransfer()));
     connect(m_socket,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(handleError(QAbstractSocket::SocketError)));
+    connect(m_socket,SIGNAL(error(QAbstractSocket::SocketError)),this,SLOT(clearBuffer()));
     connect(m_dispatcher,SIGNAL(closeConnection()),this,SLOT(disconnectSocket()));
 }
 
@@ -60,6 +61,12 @@ void TCPClientPort::send(Packet &packet) {
     packetBuffer.append(packet);
     connectSocket();
 }
+
+void TCPClientPort::clearBuffer()
+{
+  m_buffer.clear();
+}
+
 
 void TCPClientPort::startTransfer()
 {

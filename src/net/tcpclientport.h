@@ -39,6 +39,7 @@ private slots:
     void startTransfer();
     void connectSocket();
     void disconnectSocket();
+    void clearBuffer();
 };
 
 #endif // TCPCLIENTPORT_H
