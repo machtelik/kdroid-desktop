@@ -1,6 +1,29 @@
-How To Build KDroid
+KDroid
 -=-=-=-=-=-=-=-=-
 
+KDroid is a program which allows you to view your contacts and text messages on your computer over a wifi/usb connection.
+It also allows you to send text messages from your pc.
+
+
+USB
+-=-=-=-=-=-=-=-=-
+
+To use the usb connection, you need the Android Debug Bride (adb).
+Execute
+
+adb forward tcp:$port tcp:$port
+
+where $port matches the port set in KDroid.
+
+
+Known Bugs:
+-=-=-=-=-=-=-=-=-
+
+- If you use USB you won't recieve any notifications about events on the phone,
+  as it is not possible to open a tcp connection from the phone to the desktop.
+
+How To Build KDroid
+-=-=-=-=-=-=-=-=-
 
 mkdir build
 cd build
