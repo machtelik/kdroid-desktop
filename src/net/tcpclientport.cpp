@@ -65,6 +65,7 @@ void TCPClientPort::send(Packet &packet) {
 void TCPClientPort::clearBuffer()
 {
   m_buffer.clear();
+  packetBuffer.clear();
 }
 
 

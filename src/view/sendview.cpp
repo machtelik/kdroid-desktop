@@ -53,7 +53,6 @@ void SendView::Send() {
         SMSMessage message;
         message.Body=text;
         message.Address=address;
-	message.Time=QDateTime::currentMSecsSinceEpoch();
         emit sendSMS(message);
     }
 }

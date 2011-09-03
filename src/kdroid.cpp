@@ -113,7 +113,6 @@ void KDroid::handleArgs(KCmdLineArgs* args)
         SMSMessage message;
         message.Body=args->getOption("body");
         message.Address=args->getOption("address");
-        message.Time=QDateTime::currentMSecsSinceEpoch();
         sendSMS(message);
     }
 }
@@ -129,6 +128,8 @@ void KDroid::newMessage()
 
 void KDroid::sendSMS ( SMSMessage message )
 {
+    message.Time=QDateTime::currentMSecsSinceEpoch();
+    message.Type="Send";
     Packet packet = Packet ( message );
     m_clientport->send ( packet );
 }
