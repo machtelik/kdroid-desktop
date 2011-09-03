@@ -23,11 +23,11 @@
 
 #include <QApplication>
 #include <QPainter>
+#include <QDateTime>
 
 #include <KGlobalSettings>
 #include <KGlobal>
 #include <KLocale>
-#include <QDateTime>
 
 const int SPACING = 4;
 const int MAXCHARS = 80;

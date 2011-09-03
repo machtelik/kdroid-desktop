@@ -23,13 +23,13 @@
 #include <KNotification>
 #include <KStandardDirs>
 #include <KStartupInfo>
+#include <KActionCollection>
 
 #include <QDebug>
 
 #include "settings.h"
 
 #include "view/kdroidview.h"
-#include <KActionCollection>
 
 KDroid::KDroid():
         m_timer ( new QTimer() ),
@@ -239,6 +239,5 @@ TCPPort* KDroid::getPort()
     return m_clientport;
 }
 
-#include "kdroid.moc"
 
 

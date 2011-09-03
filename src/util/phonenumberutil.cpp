@@ -18,8 +18,8 @@
  ***************************************************************************/
 
 #include "phonenumberutil.h"
-#include <QRegExp>
 
+#include <QRegExp>
 #include <QDebug>
 
 PhoneNumberUtil::PhoneNumberUtil()

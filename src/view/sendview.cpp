@@ -21,11 +21,12 @@
 #include "sendview.h"
 
 
-#include <QtGui/QWidget>
-#include <KMessageBox>
+#include <QWidget>
 #include <QDateTime>
 #include <QLabel>
-#include <qtextedit.h>
+#include <QTextEdit>
+
+#include <KMessageBox>
 
 SendView::SendView(QWidget *) :
         m_view(new QWidget(this))
@@ -74,6 +75,3 @@ void SendView::setBody(QString body)
   ui_sendview_base.SmsTextEdit->setPlainText(body);
 }
 
-
-
-#include "view/sendview.moc"

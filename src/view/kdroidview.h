@@ -20,12 +20,13 @@
 #ifndef KDROIDVIEW_H
 #define KDROIDVIEW_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 #include <QStandardItem>
 
 #include "ui_kdroidview_base.h"
-#include "contact/contactlist.h"
-#include <sms/smslist.h>
+
+#include "../contact/contactlist.h"
+#include "../sms/smslist.h"
 
 class QPainter;
 class KUrl;

@@ -18,7 +18,9 @@
  ***************************************************************************/
 
 #include "kdroidxmlgui.h"
+
 #include "kdroidview.h"
+
 #include "settings.h"
 
 #include <QStringList>
@@ -29,7 +31,7 @@
 #include <QFile>
 #include <QDir>
 
-#include <KDE/KUniqueApplication>
+#include <KUniqueApplication>
 #include <KConfigDialog>
 #include <KStatusBar>
 #include <KAction>
@@ -149,8 +151,4 @@ void KDroidXmlGui::setEnableSyncButton(bool b)
   sync->setEnabled(b);
 }
 
-
-
-
-#include "kdroidxmlgui.moc"
 

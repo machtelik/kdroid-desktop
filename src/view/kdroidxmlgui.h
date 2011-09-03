@@ -28,8 +28,9 @@
 #include <QModelIndex>
 #include <KAction>
 
-#include "../kdroid.h"
 #include "ui_prefs_base.h"
+
+#include "../kdroid.h"
 #include "sendview.h"
 #include "../sms/smslist.h"
 #include "../contact/contactlist.h"

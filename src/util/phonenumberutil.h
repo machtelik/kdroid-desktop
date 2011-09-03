@@ -19,6 +19,7 @@
 
 #ifndef PHONENUMBERUTIL_H
 #define PHONENUMBERUTIL_H
+
 #include <QString>
 
 class PhoneNumberUtil

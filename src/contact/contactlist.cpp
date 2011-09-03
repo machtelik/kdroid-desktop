@@ -21,9 +21,9 @@
 
 #include <QDebug>
 
-#include "../util/phonenumberutil.h"
+#include <KLocale>
 
-#include "KLocale"
+#include "../util/phonenumberutil.h"
 
 ContactList::ContactList ( QObject * parent ) :
         QAbstractListModel ( parent ),

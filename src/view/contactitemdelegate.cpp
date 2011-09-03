@@ -23,6 +23,7 @@
 
 #include <QPainter>
 #include <QApplication>
+
 #include <KGlobalSettings>
 #include <KIconLoader>
 #include <KLocale>

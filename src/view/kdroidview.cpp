@@ -18,12 +18,12 @@
  ***************************************************************************/
 
 #include "kdroidview.h"
+
 #include "settings.h"
 
-
-
 #include <KLocale>
-#include <QtGui/QLabel>
+
+#include <QLabel>
 #include <QString>
 #include <QPlainTextEdit>
 #include <QTreeWidgetItem>
@@ -71,5 +71,3 @@ QListView* KDroidView::getSmsListView()
   return ui_kdroidview_base.SmsListView;
 }
 
-
-#include "view/kdroidview.moc"

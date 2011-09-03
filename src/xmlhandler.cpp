@@ -218,6 +218,3 @@ QString XMLHandler::parseString ( QXmlStreamReader& reader )
 }
 
 
-
-#include "xmlhandler.moc"
-
