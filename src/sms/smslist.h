@@ -27,26 +27,26 @@
 
 class SMSList : public QAbstractListModel
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
-  SMSList(QObject * parent = 0);
-  ~SMSList();
-  virtual int rowCount(const QModelIndex &index) const;
-  virtual QVariant data(const QModelIndex &index, int role) const;
-  int size();
-  SMSMessage getAt(int at);
-  enum SMSData {Body=0,Address=25,Id=27,Type=29,Time=30};
+    SMSList(QObject * parent = 0);
+    ~SMSList();
+    virtual int rowCount(const QModelIndex &index) const;
+    virtual QVariant data(const QModelIndex &index, int role) const;
+    int size();
+    SMSMessage getAt(int at);
+    enum SMSData {Body=0,Address=25,Id=27,Type=29,Time=30};
 public slots:
-  void addSMS(SMSMessage message);
-  void clear();
-  void filter(QString filter);
+    void addSMS(SMSMessage message);
+    void clear();
+    void filter(QString filter);
 signals:
-  void newContact(QString address,long time);
+    void newContact(QString address,long time);
 private:
-  QList<SMSMessage> *m_smslist;
-  QList<const SMSMessage*> *m_filteredlist;
-  void sortedInsert(const SMSMessage *message);
-  QString m_filter;
+    QList<SMSMessage> *m_smslist;
+    QList<const SMSMessage*> *m_filteredlist;
+    void sortedInsert(const SMSMessage *message);
+    QString m_filter;
 };
 
 #endif // SMSHANDLER_H

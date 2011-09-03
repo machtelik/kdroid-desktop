@@ -148,7 +148,7 @@ KDroidView* KDroidXmlGui::getMainView()
 
 void KDroidXmlGui::setEnableSyncButton(bool b)
 {
-  sync->setEnabled(b);
+    sync->setEnabled(b);
 }
 
 

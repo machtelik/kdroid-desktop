@@ -27,16 +27,16 @@
 
 class TCPServerPort : public TCPPort
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     TCPServerPort(Dispatcher *dispatcher, QObject* parent = 0);
     virtual ~TCPServerPort();
 public slots:
-  virtual void setPort(int port);
+    virtual void setPort(int port);
 private slots:
-  void connected();
+    void connected();
 private:
-  QTcpServer *m_serversocket;
+    QTcpServer *m_serversocket;
 };
 
 #endif // TCPSERVERPORT_H

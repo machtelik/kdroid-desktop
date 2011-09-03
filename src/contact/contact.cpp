@@ -32,6 +32,6 @@ bool Contact::operator<(const Contact& contact)
     if (lastContactTime==-1 && contact.lastContactTime==-1) {
         return Name<contact.Name;
     } else {
-       return lastContactTime>contact.lastContactTime;
+        return lastContactTime>contact.lastContactTime;
     }
 }

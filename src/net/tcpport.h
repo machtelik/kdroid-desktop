@@ -38,7 +38,7 @@ protected slots:
     void recive();
     void handleError(QAbstractSocket::SocketError);
 public slots:
-      virtual void setPort(int port) = 0;
+    virtual void setPort(int port) = 0;
 signals:
     void connectionError();
 protected:

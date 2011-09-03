@@ -31,7 +31,7 @@
 
 class XMLHandler : public QObject
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     XMLHandler(ContactList *contactlist,SMSList *smslist, QObject * parent = 0);
     ~XMLHandler();
@@ -39,13 +39,13 @@ public slots:
     void save(QString filename);
     bool load( QString filename);
 private:
-  void writeContacts(QXmlStreamWriter &writer);
-  void writeSms(QXmlStreamWriter &writer);
-  ContactList *m_contactlist;
-  SMSList *m_smslist;
-  SMSMessage parseSMS(QXmlStreamReader &reader);
-  Contact parseContact(QXmlStreamReader &reader);
-  QString parseString(QXmlStreamReader &reader);
+    void writeContacts(QXmlStreamWriter &writer);
+    void writeSms(QXmlStreamWriter &writer);
+    ContactList *m_contactlist;
+    SMSList *m_smslist;
+    SMSMessage parseSMS(QXmlStreamReader &reader);
+    Contact parseContact(QXmlStreamReader &reader);
+    QString parseString(QXmlStreamReader &reader);
 };
 
 #endif // XMLEXPORT_H

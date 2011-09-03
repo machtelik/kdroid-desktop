@@ -59,8 +59,8 @@ void Dispatcher::dispatch(Packet packet) {
         }
     }
     qDebug()<<"Unknown Packet: "<<packet.getType();
-    if(packet.getArguments()->size()>0) {
-      qDebug()<<"Packet Data: "<<packet.getFirstArgument();
+    if (packet.getArguments()->size()>0) {
+        qDebug()<<"Packet Data: "<<packet.getFirstArgument();
     }
 }
 

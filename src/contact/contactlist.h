@@ -26,14 +26,14 @@
 
 class ContactList : public QAbstractListModel
 {
- Q_OBJECT
+    Q_OBJECT
 public:
     ContactList(QObject * parent = 0);
     virtual ~ContactList();
     virtual int rowCount(const QModelIndex &index) const;
     virtual QVariant data(const QModelIndex &index, int role) const;
     QString getFirstAddress();
-      int size();
+    int size();
     Contact getAt(int at);
     enum ContactData {ID=0,Name=25,Address=26};
 public slots:
@@ -42,8 +42,8 @@ public slots:
     void updateContacts(QString address, long time);
 signals:
 private:
-  QList<Contact> *m_contactlist;
-  void sortedInsert(Contact &contact);
+    QList<Contact> *m_contactlist;
+    void sortedInsert(Contact &contact);
 };
 
 #endif // CONTACTHANDLER_H

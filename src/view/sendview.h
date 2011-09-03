@@ -38,9 +38,9 @@ public:
 public slots:
     void Send();
 private slots:
-  void textChanged();
+    void textChanged();
 signals:
-  void sendSMS(SMSMessage message);
+    void sendSMS(SMSMessage message);
 private:
     Ui::sendview_base ui_sendview_base;
     QWidget *m_view;

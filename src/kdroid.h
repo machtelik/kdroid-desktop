@@ -40,7 +40,7 @@ class KDroidXmlGui;
 
 class KDroid : public KUniqueApplication
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     KDroid();
     virtual ~KDroid();

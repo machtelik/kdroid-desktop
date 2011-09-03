@@ -43,12 +43,12 @@ SendView::SendView(QWidget *) :
 
 void SendView::textChanged()
 {
-  ui_sendview_base.textLength->setText(QString::number(ui_sendview_base.SmsTextEdit->toPlainText().size()));
-  if(ui_sendview_base.SmsTextEdit->toPlainText().isEmpty() || ui_sendview_base.AddressEdit->text().isEmpty() ) {
-    ui_sendview_base.SendButton->setEnabled(false);
-  } else {
-    ui_sendview_base.SendButton->setEnabled(true);
-  }
+    ui_sendview_base.textLength->setText(QString::number(ui_sendview_base.SmsTextEdit->toPlainText().size()));
+    if (ui_sendview_base.SmsTextEdit->toPlainText().isEmpty() || ui_sendview_base.AddressEdit->text().isEmpty() ) {
+        ui_sendview_base.SendButton->setEnabled(false);
+    } else {
+        ui_sendview_base.SendButton->setEnabled(true);
+    }
 }
 
 
@@ -71,7 +71,7 @@ void SendView::setAddress(QString address)
 
 void SendView::setBody(QString body)
 {
-  ui_sendview_base.SmsTextEdit->clear();
-  ui_sendview_base.SmsTextEdit->setPlainText(body);
+    ui_sendview_base.SmsTextEdit->clear();
+    ui_sendview_base.SmsTextEdit->setPlainText(body);
 }
 

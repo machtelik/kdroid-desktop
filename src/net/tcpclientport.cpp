@@ -53,7 +53,7 @@ void TCPClientPort::connectSocket()
 
 void TCPClientPort::disconnectSocket()
 {
-  m_socket->close();
+    m_socket->close();
 }
 
 
@@ -64,8 +64,8 @@ void TCPClientPort::send(Packet &packet) {
 
 void TCPClientPort::clearBuffer()
 {
-  m_buffer.clear();
-  packetBuffer.clear();
+    m_buffer.clear();
+    packetBuffer.clear();
 }
 
 

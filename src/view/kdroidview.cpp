@@ -47,12 +47,12 @@ KDroidView::KDroidView(QWidget *)
 
 void KDroidView::setContactModel(ContactList *contacts)
 {
-  ui_kdroidview_base.ContactListView->setModel(contacts);
+    ui_kdroidview_base.ContactListView->setModel(contacts);
 }
 
 void KDroidView::setSMSModel(SMSList* sms)
 {
-  ui_kdroidview_base.SmsListView->setModel(sms);
+    ui_kdroidview_base.SmsListView->setModel(sms);
 }
 
 
@@ -63,11 +63,11 @@ KDroidView::~KDroidView()
 
 QListView* KDroidView::getContactListView()
 {
-  return ui_kdroidview_base.ContactListView;
+    return ui_kdroidview_base.ContactListView;
 }
 
 QListView* KDroidView::getSmsListView()
 {
-  return ui_kdroidview_base.SmsListView;
+    return ui_kdroidview_base.SmsListView;
 }
 

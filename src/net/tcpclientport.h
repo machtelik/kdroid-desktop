@@ -24,7 +24,7 @@
 
 class TCPClientPort: public TCPPort
 {
-Q_OBJECT
+    Q_OBJECT
 public:
     TCPClientPort(Dispatcher *dispatcher, QObject* parent = 0);
     virtual ~TCPClientPort();

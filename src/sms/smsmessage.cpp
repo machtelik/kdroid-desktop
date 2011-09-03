@@ -31,5 +31,5 @@ SMSMessage::SMSMessage()
 
 bool SMSMessage::operator<(const SMSMessage& message)
 {
-  return Time<message.Time;
+    return Time<message.Time;
 }
