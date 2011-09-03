@@ -8,14 +8,14 @@ Name=New Message
 Action=Popup
 
 [Event/sendMessage]
-Name=Text Message send
+Name=Text Message Send
 Action=Popup
 
 [Event/syncComplete]
-Name=Sync complete
+Name=Sync Complete
 Action=Popup
 
 [Event/noConnection]
-Name=Phone unreachable
+Name=Phone Unreachable
 Action=Popup
 

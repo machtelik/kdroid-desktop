@@ -25,7 +25,7 @@ kde4_add_kcfg_files(kdroid_SRCS settings.kcfgc )
 
 kde4_add_executable(kdroid ${kdroid_SRCS})
 
-target_link_libraries(kdroid ${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS} )
+target_link_libraries(kdroid ${KDE4_KDEUI_LIBS} ${KDE4_KIO_LIBS} ${KDE4_KNOTIFYCONFIG_LIBRARY} )
 
 install(TARGETS kdroid ${INSTALL_TARGETS_DEFAULT_ARGS} )
 

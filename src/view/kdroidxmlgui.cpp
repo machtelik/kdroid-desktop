@@ -42,6 +42,7 @@
 #include <KLocale>
 #include <KUser>
 #include <KIconLoader>
+#include <KNotifyConfigWidget>
 
 KDroidXmlGui::KDroidXmlGui(KDroid *app)
         : KXmlGuiWindow(),
@@ -84,11 +85,13 @@ void KDroidXmlGui::setupActions()
     actionCollection()->addAction ( QLatin1String ( "sync_action" ), sync );
     connect ( sync, SIGNAL ( triggered ( bool ) ), m_app, SLOT ( SyncSms() ) );
 
-    KAction *xmlexport = new KAction ( i18n ( "XML" ), this );
+    KAction *xmlexport = new KAction ( KIcon ( "document-save-as" ), i18n ( "..XML" ), this );
     actionCollection()->addAction ( QLatin1String ( "xml_export" ), xmlexport );
     connect ( xmlexport, SIGNAL ( triggered ( bool ) ), this, SLOT ( xmlExport() ) );
 
-    actionCollection()->addAction ( QLatin1String ( "showsendview" ), m_sendview->toggleViewAction() );
+    QAction *showSendView = m_sendview->toggleViewAction();
+    showSendView->setIcon( KIcon ( "mail-message-new" ) );
+    actionCollection()->addAction ( QLatin1String ( "showsendview" ), showSendView );
 
 
 }
@@ -111,9 +114,15 @@ void KDroidXmlGui::optionsPreferences()
     KConfigDialog *dialog = new KConfigDialog ( this, "settings", Settings::self() );
     QWidget *generalSettingsDlg = new QWidget;
     ui_prefs_base.setupUi ( generalSettingsDlg );
-    dialog->addPage ( generalSettingsDlg, i18n ( "General" ), "package_setting" );
-    connect ( dialog, SIGNAL ( settingsChanged ( QString ) ), m_app, SLOT ( settingsChanged() ) );
+    KNotifyConfigWidget *notifyDialog = new KNotifyConfigWidget(dialog);
+    notifyDialog->setApplication("kdroid");
+    dialog->addPage ( generalSettingsDlg, i18n ( "General" ), "preferences-other" );
+    dialog->addPage ( notifyDialog, i18n ( "Notifications" ), "dialog-information" );
     dialog->setAttribute ( Qt::WA_DeleteOnClose );
+    connect(dialog,SIGNAL(applyClicked()),notifyDialog,SLOT(save()));
+    connect(dialog,SIGNAL(okClicked()),notifyDialog,SLOT(save()));
+    connect(notifyDialog,SIGNAL(changed(bool)) , dialog , SLOT(enableButtonApply(bool)));
+    connect ( dialog, SIGNAL ( settingsChanged ( QString ) ), m_app, SLOT ( settingsChanged() ) );
     dialog->show();
 }
 
@@ -151,4 +160,4 @@ void KDroidXmlGui::setEnableSyncButton(bool b)
     sync->setEnabled(b);
 }
 
-
+#include "kdroidxmlgui.moc"

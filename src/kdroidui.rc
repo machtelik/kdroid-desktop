@@ -6,9 +6,11 @@
 </ToolBar>
 <MenuBar>
   <Menu name="file"><text>File</text>
-        <Menu name="export"><text>Export as..</text>
+        <Menu name="export" icon="document-save">
+             <text>Export as..</text>
             <Action name="xml_export" />
         </Menu>
+        <Action name="sync_action" />
   </Menu>
   <Menu name="view"><text>View</text>
     <Action name="showsendview" />
