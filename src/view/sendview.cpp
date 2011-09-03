@@ -36,12 +36,18 @@ SendView::SendView(QWidget *) :
     setWindowTitle(i18n("Send Sms"));
     connect(ui_sendview_base.SendButton, SIGNAL(pressed()), this, SLOT(Send()));
     connect(ui_sendview_base.SmsTextEdit,SIGNAL(textChanged()),this,SLOT(textChanged()));
+    connect(ui_sendview_base.AddressEdit,SIGNAL(textChanged(QString)),this,SLOT(textChanged()));
     //TODO: QCompleter for address field
 }
 
 void SendView::textChanged()
 {
   ui_sendview_base.textLength->setText(QString::number(ui_sendview_base.SmsTextEdit->toPlainText().size()));
+  if(ui_sendview_base.SmsTextEdit->toPlainText().isEmpty() || ui_sendview_base.AddressEdit->text().isEmpty() ) {
+    ui_sendview_base.SendButton->setEnabled(false);
+  } else {
+    ui_sendview_base.SendButton->setEnabled(true);
+  }
 }
 
 

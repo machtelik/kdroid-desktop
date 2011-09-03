@@ -96,6 +96,9 @@
      </property>
      <item>
       <widget class="QPushButton" name="SendButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="maximumSize">
         <size>
          <width>100</width>
