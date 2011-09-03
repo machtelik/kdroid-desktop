@@ -27,6 +27,7 @@
 #include <QTextEdit>
 
 #include <KMessageBox>
+#include <KLocale>
 
 SendView::SendView(QWidget *) :
         m_view(new QWidget(this))
@@ -34,7 +35,7 @@ SendView::SendView(QWidget *) :
     ui_sendview_base.setupUi(m_view);
     setWidget(m_view);
     setObjectName("sendView");
-    setWindowTitle(i18n("Send Sms"));
+    setWindowTitle(i18n("Send Text Message"));
     connect(ui_sendview_base.SendButton, SIGNAL(pressed()), this, SLOT(Send()));
     connect(ui_sendview_base.SmsTextEdit,SIGNAL(textChanged()),this,SLOT(textChanged()));
     connect(ui_sendview_base.AddressEdit,SIGNAL(textChanged(QString)),this,SLOT(textChanged()));
