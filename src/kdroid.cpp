@@ -101,6 +101,11 @@ void KDroid::handleArgs(KCmdLineArgs* args)
     if (!args->isSet("quiet")) {
         m_gui->show();
     }
+    if (args->isSet("test")) {
+        Packet p = Packet(QString("Status"));
+        p.addArgument("connectionTest");
+        m_clientport->send(p);
+    }
     if (!args->isSet("send")) {
         if (args->isSet("address")) {
             m_gui->getSendView()->setAddress(args->getOption("address"));

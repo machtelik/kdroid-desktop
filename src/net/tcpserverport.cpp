@@ -26,7 +26,7 @@ TCPServerPort::TCPServerPort(Dispatcher *dispatcher, QObject* parent):
         m_serversocket(new QTcpServer(this))
 {
     m_socket=0;
-    m_serversocket->listen(QHostAddress::Any,Settings::port()+1);
+    m_serversocket->listen(QHostAddress::Any,Settings::port());
     connect(m_serversocket,SIGNAL(newConnection()),this,SLOT(connected()));
 }
 
@@ -39,7 +39,7 @@ void TCPServerPort::setPort(int port)
 {
     m_port=port;
     m_serversocket->close();
-    m_serversocket->listen(QHostAddress::Any,port+1);
+    m_serversocket->listen(QHostAddress::Any,port);
 }
 
 void TCPServerPort::connected()

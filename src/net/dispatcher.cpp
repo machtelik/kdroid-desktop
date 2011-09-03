@@ -57,6 +57,10 @@ void Dispatcher::dispatch(Packet packet) {
             emit closeConnection();
             return;
         }
+        if (packet.getFirstArgument()=="connectionSuccessful") {
+            qDebug()<<"Connection Successful";
+            return;
+        }
     }
     qDebug()<<"Unknown Packet: "<<packet.getType();
     if (packet.getArguments()->size()>0) {

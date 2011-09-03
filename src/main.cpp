@@ -41,6 +41,7 @@ int main(int argc, char **argv)
     options.add("address <address>",ki18n("Address"));
     options.add("body <body>",ki18n("Message body"));
     options.add("quiet",ki18n("Don't show the Main Window"));
+    options.add("test",ki18n("Test the (network) connection to the phone"));
     KCmdLineArgs::addCmdLineOptions(options);
     KCmdLineArgs::init(argc, argv, &about);
     KCmdLineArgs::addCmdLineOptions( options );
