@@ -17,35 +17,38 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .        *
  ***************************************************************************/
 
+#include "messagedbushandler.h"
+#include "MessageDBusHandlerAdaptor.h"
 
-#ifndef SENDVIEW_H
-#define SENDVIEW_H
+#include <QDBusConnection>
 
-#include <QDockWidget>
-#include <QString>
+#include "../view/kdroidxmlgui.h"
 
-#include "../sms/smsmessage.h"
 
-#include "ui_sendview_base.h"
-
-class SendView: public QDockWidget
+MessageDBusHandler::MessageDBusHandler(KDroid* parent):
+        QObject(parent),
+        m_app(parent)
 {
-    Q_OBJECT
-public:
-    SendView(QWidget *parent);
-    void setAddress(QString address);
-    void setBody(QString body);
-public slots:
-    void Send();
-private slots:
-    void textChanged();
-signals:
-    void sendSMS(QString address, QString body);
-private:
-    Ui::sendview_base ui_sendview_base;
-    QWidget *m_view;
+    new MessageDBusHandlerAdaptor(this);
 
+    QDBusConnection dbus = QDBusConnection::sessionBus();
 
-};
+    dbus.registerObject("/Message", this);
 
-#endif // SENDVIEW_H
+    dbus.registerService("org.kde.kdroid");
+}
+
+void MessageDBusHandler::sendMessage(const QString& address, const QString& body)
+{
+    m_app->sendSMS(address,body);
+}
+
+void MessageDBusHandler::showAddress(const QString& address)
+{
+    m_app->getMainWindow()->getSendView()->setAddress(address);
+}
+
+void MessageDBusHandler::showBody(const QString& body)
+{
+    m_app->getMainWindow()->getSendView()->setBody(body);
+}

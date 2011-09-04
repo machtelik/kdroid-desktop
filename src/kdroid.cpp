@@ -40,9 +40,9 @@ KDroid::KDroid():
         m_contactlist ( new ContactList ( this ) ),
         m_xmlhandler ( new XMLHandler ( m_contactlist,m_smslist,this ) ),
         m_gui(new KDroidXmlGui(this)),
-        m_statusNotifier(new KStatusNotifierItem(this))
+        m_statusNotifier(new KStatusNotifierItem(this)),
+        m_messageDBusHandler(new MessageDBusHandler(this))
 {
-
     m_saveLocation = KStandardDirs().saveLocation ( "data",qAppName() ).append ( "kdroidData.xml" );
 
     connect ( m_dispatcher,SIGNAL ( newSMSMessage ( SMSMessage ) ),m_smslist,SLOT ( addSMS ( SMSMessage ) ) );
@@ -64,12 +64,12 @@ KDroid::KDroid():
         activateFirstContact();
     }
 
-    settingsChanged();
-
     m_statusNotifier->setIconByName("pda");
     m_statusNotifier->setCategory(KStatusNotifierItem::Communications);
     m_statusNotifier->setStatus(KStatusNotifierItem::Passive);
     m_statusNotifier->setAssociatedWidget(m_gui);
+
+    settingsChanged();
 }
 
 KDroid::~KDroid()
@@ -115,10 +115,7 @@ void KDroid::handleArgs(KCmdLineArgs* args)
         }
     }
     if (args->isSet("send") && args->isSet("address") && args->isSet("body")) {
-        SMSMessage message;
-        message.Body=args->getOption("body");
-        message.Address=args->getOption("address");
-        sendSMS(message);
+        sendSMS(args->getOption("address"),args->getOption("body"));
     }
 }
 
@@ -138,6 +135,15 @@ void KDroid::sendSMS ( SMSMessage message )
     Packet packet = Packet ( message );
     m_clientport->send ( packet );
 }
+
+void KDroid::sendSMS(QString address, QString body)
+{
+    SMSMessage message;
+    message.Address=address;
+    message.Body=body;
+    sendSMS(message);
+}
+
 
 void KDroid::SMSSend()
 {
@@ -243,6 +249,12 @@ TCPPort* KDroid::getPort()
 {
     return m_clientport;
 }
+
+KDroidXmlGui* KDroid::getMainWindow()
+{
+    return m_gui;
+}
+
 
 
 

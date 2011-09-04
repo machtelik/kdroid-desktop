@@ -58,10 +58,7 @@ void SendView::Send() {
     QString text = ui_sendview_base.SmsTextEdit->toPlainText();
     QString address = ui_sendview_base.AddressEdit->text();
     if (text!="" && address!="") {
-        SMSMessage message;
-        message.Body=text;
-        message.Address=address;
-        emit sendSMS(message);
+        emit sendSMS( address, text );
     }
 }
 

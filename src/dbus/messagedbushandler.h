@@ -17,35 +17,24 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA .        *
  ***************************************************************************/
 
+#ifndef ROOTDBUSHANDLER_H
+#define ROOTDBUSHANDLER_H
 
-#ifndef SENDVIEW_H
-#define SENDVIEW_H
+#include <QObject>
 
-#include <QDockWidget>
-#include <QString>
+class KDroid;
 
-#include "../sms/smsmessage.h"
-
-#include "ui_sendview_base.h"
-
-class SendView: public QDockWidget
+class MessageDBusHandler : public QObject
 {
     Q_OBJECT
 public:
-    SendView(QWidget *parent);
-    void setAddress(QString address);
-    void setBody(QString body);
+    explicit MessageDBusHandler(KDroid* parent = 0);
 public slots:
-    void Send();
-private slots:
-    void textChanged();
-signals:
-    void sendSMS(QString address, QString body);
+    void sendMessage(const QString& address, const QString& body);
+    void showAddress(const QString &address);
+    void showBody(const QString &body);
 private:
-    Ui::sendview_base ui_sendview_base;
-    QWidget *m_view;
-
-
+    KDroid *m_app;
 };
 
-#endif // SENDVIEW_H
+#endif // DBUSHANDLER_H

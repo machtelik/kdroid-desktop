@@ -14,6 +14,7 @@ set(kdroid_SRCS
    net/tcpclientport.cpp
    net/tcpserverport.cpp
    net/dispatcher.cpp
+   dbus/messagedbushandler.cpp
    kdroid.cpp
    xmlhandler.cpp
    main.cpp
@@ -22,6 +23,10 @@ set(kdroid_SRCS
 kde4_add_ui_files(kdroid_SRCS view/kdroidview_base.ui view/prefs_base.ui view/sendview_base.ui)
 
 kde4_add_kcfg_files(kdroid_SRCS settings.kcfgc )
+
+#qt4_generate_dbus_interface(dbus/messagedbushandler.h)
+
+qt4_add_dbus_adaptor( kdroid_SRCS dbus/org.kde.kdroid.Message.xml dbus/messagedbushandler.h MessageDBusHandler MessageDBusHandlerAdaptor MessageDBusHandlerAdaptor)
 
 kde4_add_executable(kdroid ${kdroid_SRCS})
 

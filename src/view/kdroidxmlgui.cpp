@@ -67,7 +67,7 @@ KDroidXmlGui::KDroidXmlGui(KDroid *app)
 
     connect ( m_view,SIGNAL ( contactAktivated ( QModelIndex ) ),this,SLOT ( selectionChanged ( QModelIndex ) ) );
 
-    connect ( m_sendview,SIGNAL ( sendSMS ( SMSMessage ) ),m_app,SLOT ( sendSMS ( SMSMessage ) ) );
+    connect ( m_sendview,SIGNAL ( sendSMS ( QString, QString ) ),m_app,SLOT ( sendSMS ( QString, QString ) ) );
 
 }
 

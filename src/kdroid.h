@@ -34,6 +34,7 @@
 #include "net/dispatcher.h"
 #include "net/tcpclientport.h"
 #include "net/tcpserverport.h"
+#include "dbus/messagedbushandler.h"
 
 
 class KDroidXmlGui;
@@ -49,6 +50,7 @@ public:
 public slots:
     void SyncSms();
     void sendSMS(SMSMessage message);
+    void sendSMS(QString address, QString body);
     void settingsChanged();
 private slots:
     void SMSSend();
@@ -62,6 +64,7 @@ public:
     ContactList* getContactList();
     SMSList* getSMSList();
     TCPPort* getPort();
+    KDroidXmlGui* getMainWindow();
 private:
     KNotification* m_notify;
     QTimer *m_timer;
@@ -74,6 +77,7 @@ private:
     KDroidXmlGui *m_gui;
     QString m_saveLocation;
     KStatusNotifierItem *m_statusNotifier;
+    MessageDBusHandler *m_messageDBusHandler;
 
     void handleArgs(KCmdLineArgs *args);
     void activateFirstContact();
