@@ -104,6 +104,7 @@ void KDroid::handleArgs(KCmdLineArgs* args)
     if (args->isSet("test")) {
         Packet p = Packet(QString("Status"));
         p.addArgument("connectionTest");
+        p.addArgument(args->getOption("test"));
         m_clientport->send(p);
     }
     if (!args->isSet("send")) {

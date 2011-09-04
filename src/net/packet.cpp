@@ -21,6 +21,7 @@
 
 #include <QStringList>
 #include <QDebug>
+#include <QString>
 
 Packet::Packet(QString type)
 {
@@ -93,7 +94,7 @@ QByteArray Packet::toByteArray()
     bytes.append(type);
     bytes.append(seperator);
     for (int i = 0; i<arguments.size();++i) {
-        bytes.append(arguments.at(i));
+        bytes.append(arguments.at(i).toUtf8());
         bytes.append(seperator);
     }
     bytes.append(packetSeparator);

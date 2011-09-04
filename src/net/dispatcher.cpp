@@ -58,7 +58,7 @@ void Dispatcher::dispatch(Packet packet) {
             return;
         }
         if (packet.getFirstArgument()=="connectionSuccessful") {
-            qDebug()<<"Connection Successful";
+            qDebug()<<"Connection Successful "<<packet.getArguments()->at(1);
             return;
         }
     }
