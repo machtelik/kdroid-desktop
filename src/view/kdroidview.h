@@ -44,10 +44,12 @@ public:
     QListView* getContactListView();
 private:
     Ui::kdroidview_base ui_kdroidview_base;
+    ContactList *m_contactsModel;
 private slots:
-
 signals:
     void contactAktivated(QModelIndex index);
+    void filterChanged(QString filter);
+public slots:
 };
 
 #endif // KDroidVIEW_H

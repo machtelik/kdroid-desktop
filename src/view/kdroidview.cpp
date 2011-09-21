@@ -43,11 +43,13 @@ KDroidView::KDroidView(QWidget *)
     ui_kdroidview_base.SmsListView->setResizeMode(QListView::Adjust);
     connect(ui_kdroidview_base.ContactListView,SIGNAL(entered(QModelIndex)),this,SIGNAL(contactAktivated(QModelIndex)));
     connect(ui_kdroidview_base.ContactListView,SIGNAL(clicked(QModelIndex)),this,SIGNAL(contactAktivated(QModelIndex)));
+    connect(ui_kdroidview_base.ContactFilterLineEdit,SIGNAL(textChanged(QString)),this,SIGNAL(filterChanged(QString)));
 }
 
 void KDroidView::setContactModel(ContactList *contacts)
 {
     ui_kdroidview_base.ContactListView->setModel(contacts);
+    m_contactsModel = contacts;
 }
 
 void KDroidView::setSMSModel(SMSList* sms)

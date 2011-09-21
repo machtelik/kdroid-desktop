@@ -55,6 +55,7 @@ private slots:
     void closeEvent(QCloseEvent *event);
     void xmlExport();
     void selectionChanged(QModelIndex index);
+    void contactFilterChanged(QString filter);
 
 private:
     void setupActions();

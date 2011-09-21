@@ -52,6 +52,7 @@ public slots:
     void sendSMS(SMSMessage message);
     void sendSMS(QString address, QString body);
     void settingsChanged();
+    void activateFirstContact();
 private slots:
     void SMSSend();
     void SyncComplete();
@@ -80,7 +81,6 @@ private:
     MessageDBusHandler *m_messageDBusHandler;
 
     void handleArgs(KCmdLineArgs *args);
-    void activateFirstContact();
 };
 
 #endif // KDROID_H

@@ -27,7 +27,8 @@
 
 ContactList::ContactList ( QObject * parent ) :
         QAbstractListModel ( parent ),
-        m_contactlist ( new QList<Contact>() )
+        m_contactlist ( new QList<Contact>() ),
+        m_filteredcontactlist(new QList<const Contact*>())
 {
 
 }
@@ -35,11 +36,15 @@ ContactList::ContactList ( QObject * parent ) :
 ContactList::~ContactList()
 {
     delete m_contactlist;
+    delete m_filteredcontactlist;
 }
 
 void ContactList::addContact ( Contact contact )
 {
-    sortedInsert ( contact );
+    m_contactlist->append(contact);
+    if (contact.Name.contains(m_filter,Qt::CaseInsensitive) || contact.Address.contains(m_filter,Qt::CaseInsensitive)) {
+        sortedInsert ( &m_contactlist->last() );
+    }
 }
 
 int ContactList::size()
@@ -52,33 +57,43 @@ Contact ContactList::getAt ( int at )
     return m_contactlist->at ( at );
 }
 
-
-
-void ContactList::sortedInsert ( Contact& contact )
+void ContactList::filter(QString filter)
 {
-    for ( int i = 0;i<m_contactlist->size();++i )
+    m_filter=filter;
+    clearView();
+    for (int i = 0; i<m_contactlist->size();++i) {
+        if (m_contactlist->at(i).Name.contains(filter,Qt::CaseInsensitive) || m_contactlist->at(i).Address.contains(filter,Qt::CaseInsensitive)) {
+            sortedInsert( &m_contactlist->at(i) );
+        }
+    }
+}
+
+void ContactList::sortedInsert (const Contact* contact )
+{
+    Contact contactTmp = *contact;
+    for ( int i = 0;i<m_filteredcontactlist->size();++i )
     {
-        Contact c = m_contactlist->at ( i );
-        if ( contact<c )
+        Contact c = *m_filteredcontactlist->at ( i );
+        if ( contactTmp<c )
         {
             beginInsertRows ( QModelIndex(),i,i );
-            m_contactlist->insert ( i,contact );
+            m_filteredcontactlist->insert ( i,contact );
             endInsertRows();
             return;
         }
     }
-    beginInsertRows ( QModelIndex(),m_contactlist->size(),m_contactlist->size() );
-    m_contactlist->append ( contact );
+    beginInsertRows ( QModelIndex(),m_filteredcontactlist->size(),m_filteredcontactlist->size() );
+    m_filteredcontactlist->append ( contact );
     endInsertRows();
 }
 
 QString ContactList::getFirstAddress()
 {
-    if ( !m_contactlist->isEmpty() )
+    if ( !m_filteredcontactlist->isEmpty() )
     {
-        return m_contactlist->first().Address;
+        return m_filteredcontactlist->first()->Address;
     }
-    return "-1";
+    return "";
 }
 
 
@@ -95,7 +110,8 @@ void ContactList::updateContacts (QString address , long time )
                 Contact c = m_contactlist->takeAt ( i );
                 endRemoveRows();
                 c.lastContactTime=time;
-                sortedInsert ( c );
+                m_contactlist->append( c );
+                filter(m_filter);
                 return;
             }
         }
@@ -105,22 +121,30 @@ void ContactList::updateContacts (QString address , long time )
         contact.Name=i18n("Unknown");
         contact.Address=address;
         contact.lastContactTime=time;
-        sortedInsert(contact);
+        m_contactlist->append(contact);
     }
+    filter(m_filter);
 }
 
 
 void ContactList::clear()
 {
-    beginRemoveRows ( QModelIndex(),0,m_contactlist->size()-1 );
+    clearView();
     m_contactlist->clear();
+}
+
+void ContactList::clearView()
+{
+    beginRemoveRows ( QModelIndex(),0,m_filteredcontactlist->size()-1 );
+    m_filteredcontactlist->clear();
     endRemoveRows();
 }
+
 
 int ContactList::rowCount ( const QModelIndex& index ) const
 {
     Q_UNUSED ( index );
-    return m_contactlist->size();
+    return m_filteredcontactlist->size();
 }
 
 QVariant ContactList::data ( const QModelIndex& index, int role ) const
@@ -128,15 +152,16 @@ QVariant ContactList::data ( const QModelIndex& index, int role ) const
     if ( !index.isValid() )
         return QVariant();
 
-    if ( index.row() >= m_contactlist->size() )
-        return QVariant();
+    if ( index.row() >= m_filteredcontactlist->size() )
+        return QVariant("-1");
 
     if ( role == Name )
-        return QVariant ( m_contactlist->at ( index.row() ).Name );
+        return QVariant ( m_filteredcontactlist->at ( index.row() )->Name );
     else if ( role == Address )
-        return QVariant ( m_contactlist->at ( index.row() ).Address );
+        return QVariant ( m_filteredcontactlist->at ( index.row() )->Address );
     else if ( role == ID )
-        return QVariant ( m_contactlist->at ( index.row() ).Id );
+        return QVariant ( m_filteredcontactlist->at ( index.row() )->Id );
     else
         return QVariant();
 }
+

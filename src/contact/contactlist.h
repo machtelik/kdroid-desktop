@@ -39,11 +39,15 @@ public:
 public slots:
     void addContact(Contact contact);
     void clear();
+    void filter(QString filter);
     void updateContacts(QString address, long time);
 signals:
 private:
+    void clearView();
     QList<Contact> *m_contactlist;
-    void sortedInsert(Contact &contact);
+    QList<const Contact*> *m_filteredcontactlist;
+    void sortedInsert(const Contact* contact);
+    QString m_filter;
 };
 
 #endif // CONTACTHANDLER_H

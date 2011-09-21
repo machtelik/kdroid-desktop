@@ -29,7 +29,8 @@
 #include <KMessageBox>
 #include <KLocale>
 
-SendView::SendView(QWidget *) :
+SendView::SendView(QWidget *parent) :
+        QDockWidget(parent),
         m_view(new QWidget(this))
 {
     ui_sendview_base.setupUi(m_view);

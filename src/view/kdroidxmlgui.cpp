@@ -68,6 +68,8 @@ KDroidXmlGui::KDroidXmlGui(KDroid *app)
 
     connect ( m_view,SIGNAL ( contactAktivated ( QModelIndex ) ),this,SLOT ( selectionChanged ( QModelIndex ) ) );
 
+    connect ( m_view,SIGNAL ( filterChanged(QString) ),this,SLOT ( contactFilterChanged(QString) ) );
+
     connect ( m_sendview,SIGNAL ( sendSMS ( QString, QString ) ),m_app,SLOT ( sendSMS ( QString, QString ) ) );
 
 }
@@ -133,6 +135,11 @@ void KDroidXmlGui::selectionChanged ( QModelIndex index )
     m_app->getSMSList()->filter ( index.data ( ContactList::Address ).toString() );
 }
 
+void KDroidXmlGui::contactFilterChanged(QString filter)
+{
+    m_app->getContactList()->filter(filter);
+    m_app->activateFirstContact();
+}
 
 void KDroidXmlGui::closeEvent ( QCloseEvent *event )
 {
