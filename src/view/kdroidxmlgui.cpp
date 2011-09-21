@@ -30,6 +30,7 @@
 #include <QTimer>
 #include <QFile>
 #include <QDir>
+#include <QCloseEvent>
 
 #include <KUniqueApplication>
 #include <KConfigDialog>
