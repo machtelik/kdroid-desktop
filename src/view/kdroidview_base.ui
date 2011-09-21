@@ -20,7 +20,11 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="KLineEdit" name="ContactFilterLineEdit"/>
+      <widget class="KLineEdit" name="ContactFilterLineEdit">
+       <property name="showClearButton" stdset="0">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QListView" name="ContactListView">

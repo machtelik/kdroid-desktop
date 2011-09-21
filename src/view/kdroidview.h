@@ -42,7 +42,6 @@ public:
 
     QListView* getSmsListView();
     QListView* getContactListView();
-
 private:
     Ui::kdroidview_base ui_kdroidview_base;
 private slots:

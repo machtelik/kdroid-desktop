@@ -55,7 +55,6 @@ void KDroidView::setSMSModel(SMSList* sms)
     ui_kdroidview_base.SmsListView->setModel(sms);
 }
 
-
 KDroidView::~KDroidView()
 {
 

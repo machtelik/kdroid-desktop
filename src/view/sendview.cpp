@@ -39,7 +39,6 @@ SendView::SendView(QWidget *) :
     connect(ui_sendview_base.SendButton, SIGNAL(pressed()), this, SLOT(Send()));
     connect(ui_sendview_base.SmsTextEdit,SIGNAL(textChanged()),this,SLOT(textChanged()));
     connect(ui_sendview_base.AddressEdit,SIGNAL(textChanged(QString)),this,SLOT(textChanged()));
-    //TODO: QCompleter for address field
 }
 
 void SendView::textChanged()
@@ -51,8 +50,6 @@ void SendView::textChanged()
         ui_sendview_base.SendButton->setEnabled(true);
     }
 }
-
-
 
 void SendView::Send() {
     QString text = ui_sendview_base.SmsTextEdit->toPlainText();
