@@ -25,15 +25,15 @@
 #include "kdroid.h"
 
 static const char description[] =
-    I18N_NOOP("Android SMS Sync");
+    I18N_NOOP("Android Text Message manager");
 
 static const char version[] = "0.8";
 
 int main(int argc, char **argv)
 {
-    KAboutData about("kdroid", 0, ki18n("KDroid"), version, ki18n(description),
-                     KAboutData::License_GPL, ki18n("(C) 2011 Mike Achtelik"), KLocalizedString(), 0, "mike.achtelik+kdroidbugs@gmail.com");
-    about.addAuthor( ki18n("Mike Achtelik"), KLocalizedString(), "mike.achtelik+kdroid@gmail.com" );
+    KAboutData about("kdroid", 0, "KDroid", version, ki18n(description),
+                     KAboutData::License_GPL, "(C) 2011 Mike Achtelik", KLocalizedString(), 0, "mike.achtelik+kdroidbugs@gmail.com");
+    about.addAuthor( "Mike Achtelik", KLocalizedString(), "mike.achtelik+kdroid@gmail.com" );
     KCmdLineArgs::init(argc, argv, &about);
 
     KCmdLineOptions options;

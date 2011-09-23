@@ -148,7 +148,7 @@ void KDroid::sendSMS(QString address, QString body)
 
 void KDroid::SMSSend()
 {
-    showNotification ( i18n ( "SMS send" ),"sendMessage" );
+    showNotification ( i18n ( "Message send" ),"sendMessage" );
     m_gui->getSendView()->setBody("");
     qDebug() <<"Message Send";
 }

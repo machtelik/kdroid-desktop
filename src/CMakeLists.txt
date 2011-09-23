@@ -24,8 +24,6 @@ kde4_add_ui_files(kdroid_SRCS view/kdroidview_base.ui view/prefs_base.ui view/se
 
 kde4_add_kcfg_files(kdroid_SRCS settings.kcfgc )
 
-#qt4_generate_dbus_interface(dbus/messagedbushandler.h)
-
 qt4_add_dbus_adaptor( kdroid_SRCS dbus/org.kde.kdroid.Message.xml dbus/messagedbushandler.h MessageDBusHandler MessageDBusHandlerAdaptor MessageDBusHandlerAdaptor)
 
 kde4_add_executable(kdroid ${kdroid_SRCS})
