@@ -170,7 +170,7 @@ void KDroid::SyncSms()
 {
     qDebug() <<"Sync start";
     m_gui->setEnableSyncButton(false);
-    if ( Settings::auto_sync() && !m_timer->isActive() )
+    if ( Settings::auto_sync() )
     {
         m_timer->setInterval ( Settings::timer_interval() *60000 );
         m_timer->start();
