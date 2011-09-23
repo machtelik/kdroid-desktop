@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-09-24 00:20+0200\n"
-"PO-Revision-Date: 2011-09-24 00:30+0200\n"
+"PO-Revision-Date: 2011-09-24 00:34+0200\n"
 "Last-Translator: Mike Achtelik <mike.achtelik@googlemail.com>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -33,7 +33,7 @@ msgstr "SMS gesendet"
 
 #: kdroid.cpp:159
 msgid "Synchronization complete"
-msgstr "Synchronisations erfolgreich"
+msgstr "Synchronisation erfolgreich"
 
 #: kdroid.cpp:198
 msgid "Phone unreachable"
