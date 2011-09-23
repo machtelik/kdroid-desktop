@@ -9,3 +9,4 @@ Terminal=false
 Categories=Qt;KDE;Utility;TelephonyTools;
 Comment=
 GenericName=Android Text Message manager
+GenericName[de]=Android SMS Manager
