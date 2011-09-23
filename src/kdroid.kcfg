@@ -6,19 +6,19 @@
   <kcfgfile name="kdroidrc"/>
   <group name="Preferences">
     <entry name="ip_address" type="String">
-	    <label>IP Address of Android device</label>
+	    <label>IP Address</label>
 	    <default>192.168.1.11</default>
     </entry>
         <entry name="port" type="int">
-	    <label>Port used for communication</label>
+	    <label>Port</label>
 	    <default>48564</default>
     </entry>
     <entry name="auto_sync" type="bool">
-            <label>Automatic Sync</label>
+            <label>Automatic Synchronization</label>
             <default>false</default>
     </entry>
     <entry name="timer_interval" type="int">
-            <label>Sync Timer</label>
+            <label>Sync Timer (min)</label>
             <default>30</default>
     </entry>
   </group>

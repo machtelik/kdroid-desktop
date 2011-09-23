@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-23 23:56+0200\n"
-"PO-Revision-Date: 2011-09-23 23:47+0200\n"
+"POT-Creation-Date: 2011-09-24 00:20+0200\n"
+"PO-Revision-Date: 2011-09-24 00:26+0200\n"
 "Last-Translator: Mike Achtelik <mike.achtelik@googlemail.com>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
@@ -32,12 +32,12 @@ msgid "Message send"
 msgstr "SMS gesendet"
 
 #: kdroid.cpp:159
-msgid "Sync complete"
-msgstr "Synchronisation erfolgreich"
+msgid "Synchronization complete"
+msgstr "Synchronisations erfolgreich"
 
 #: kdroid.cpp:198
-msgid "Device unreachable"
-msgstr "Gerät unerreichbar"
+msgid "Phone unreachable"
+msgstr "Telefon unerreichbar"
 
 #: main.cpp:31 rc.cpp:55
 msgid "KDroid"
@@ -57,7 +57,7 @@ msgstr ""
 
 #: main.cpp:37
 msgid "Sends text message if <address> and <body> are provided"
-msgstr "Sendet eine SMS wenn <address> und <body> gegeben sind"
+msgstr "Sendet SMS wenn <address> und <body> gegeben sind"
 
 #: main.cpp:38
 msgid "Address"
@@ -65,7 +65,7 @@ msgstr "Adresse"
 
 #: main.cpp:39
 msgid "Message body"
-msgstr "Nachrichten Text"
+msgstr "Nachrichten text"
 
 #: main.cpp:40
 msgid "Don't show the Main Window"
@@ -75,11 +75,15 @@ msgstr "Zeige das Hauptfenster nicht"
 msgid "Test the (network) connection to the phone"
 msgstr "Teste die (Netzwerk) verbindung zum Telefon"
 
-#: view/contactitemdelegate.cpp:100
-msgid "Number: "
+#. i18n: file: view/sendview_base.ui:28
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: view/contactitemdelegate.cpp:100 rc.cpp:45
+msgid "Number:"
 msgstr "Nummer:"
 
-#: view/kdroidxmlgui.cpp:87
+#. i18n: file: view/prefs_base.ui:41
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_auto_sync)
+#: view/kdroidxmlgui.cpp:87 rc.cpp:30
 msgid "Synchronise"
 msgstr "Synchronisiere"
 
@@ -116,32 +120,32 @@ msgstr "Gesendet"
 #. i18n: file: kdroid.kcfg:9
 #. i18n: ectx: label, entry (ip_address), group (Preferences)
 #: rc.cpp:3
-msgid "IP Address of Android device"
-msgstr "IP Adresse des Gerätes"
+msgid "IP Address"
+msgstr "IP Adresse"
 
 #. i18n: file: kdroid.kcfg:13
 #. i18n: ectx: label, entry (port), group (Preferences)
 #: rc.cpp:6
-msgid "Port used for communication"
-msgstr "Port welcher für die Kummunikation benuzt wird"
+msgid "Port"
+msgstr ""
 
 #. i18n: file: kdroid.kcfg:17
 #. i18n: ectx: label, entry (auto_sync), group (Preferences)
 #: rc.cpp:9
-msgid "Automatic Sync"
-msgstr "Automatische Synchronisation"
+msgid "Automatic Synchronization"
+msgstr "Synchronisations erfolgreich"
 
 #. i18n: file: kdroid.kcfg:21
 #. i18n: ectx: label, entry (timer_interval), group (Preferences)
 #: rc.cpp:12
-msgid "Sync Timer"
-msgstr "Synchronisations Timer"
+msgid "Sync Timer (min)"
+msgstr "Synchronisations Timer (min)"
 
 #. i18n: file: kdroidui.rc:4
 #. i18n: ectx: ToolBar (mainToolBar)
 #: rc.cpp:15
 msgid "Main Toolbar"
-msgstr ""
+msgstr "Hauptwerkzeugleiste"
 
 #. i18n: file: kdroidui.rc:8
 #. i18n: ectx: Menu (file)
@@ -167,35 +171,23 @@ msgstr "Ansicht"
 msgid "IP Address:"
 msgstr "IP Adresse:"
 
-#. i18n: file: view/prefs_base.ui:41
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_auto_sync)
-#: rc.cpp:30
-msgid "Sync"
-msgstr "Synchronisation"
-
 #. i18n: file: view/prefs_base.ui:64
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: rc.cpp:33
-msgid "Automatic Sync:"
-msgstr "Automatische Synchronisation:"
+msgid "Automatic Synchronization:"
+msgstr "Synchronisations erfolgreich:"
 
 #. i18n: file: view/prefs_base.ui:71
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: rc.cpp:36
-msgid "Sync Timer (min)"
-msgstr "Synchronisations Timer (min)"
+msgid "Sync Timer (min):"
+msgstr "Synchronisations Timer (min):"
 
 #. i18n: file: view/prefs_base.ui:78
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: rc.cpp:39
 msgid "Port:"
 msgstr ""
-
-#. i18n: file: view/sendview_base.ui:28
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: rc.cpp:45
-msgid "Number:"
-msgstr "Nummer:"
 
 #. i18n: file: view/sendview_base.ui:67
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -207,14 +199,15 @@ msgstr "Nachricht:"
 #. i18n: ectx: property (text), widget (KPushButton, SendButton)
 #: rc.cpp:51
 msgid "Send"
-msgstr "Sende"
+msgstr "Senden"
 
 #: rc.cpp:52
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr ""
+msgstr "Mike Achtelik"
 
 #: rc.cpp:53
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr ""
+msgstr "mike.achtelik+kdroid@googlemail.com"
+

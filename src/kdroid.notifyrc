@@ -12,10 +12,10 @@ Name=Text Message Send
 Action=Popup
 
 [Event/syncComplete]
-Name=Sync Complete
+Name=Synchronization Complete
 Action=Popup
 
 [Event/noConnection]
-Name=Phone Unreachable
+Name=Phone unreachable
 Action=Popup
 

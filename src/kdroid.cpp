@@ -156,7 +156,7 @@ void KDroid::SMSSend()
 void KDroid::SyncComplete()
 {
     qDebug() <<"Sync Complete";
-    showNotification ( i18n ( "Sync complete" ),"syncComplete" );
+    showNotification ( i18n ( "Synchronization complete" ),"syncComplete" );
 
     activateFirstContact();
 
@@ -195,7 +195,7 @@ void KDroid::noConnection()
     {
         m_timer->stop();
     }
-    showNotification ( i18n ( "Device unreachable" ),"noConnection" );
+    showNotification ( i18n ( "Phone unreachable" ),"noConnection" );
 }
 
 void KDroid::showNotification ( QString message, QString type )

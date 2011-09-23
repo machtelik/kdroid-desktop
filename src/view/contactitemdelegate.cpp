@@ -97,7 +97,7 @@ void ContactItemDelegate::paint ( QPainter* painter, const QStyleOptionViewItem&
 
     painter->setPen ( addressPen );
 
-    painter->drawText ( addressRect,fontMetrics.elidedText ( i18n ( "Number: " ) +index.data ( ContactList::Address ).toString(),
+    painter->drawText ( addressRect,fontMetrics.elidedText ( i18n ( "Number:" )+" " +index.data ( ContactList::Address ).toString(),
                         Qt::ElideRight, addressRect.width() ) );
     painter->restore();
 }

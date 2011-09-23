@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-23 23:56+0200\n"
+"POT-Creation-Date: 2011-09-24 00:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,11 +30,11 @@ msgid "Message send"
 msgstr ""
 
 #: kdroid.cpp:159
-msgid "Sync complete"
+msgid "Synchronization complete"
 msgstr ""
 
 #: kdroid.cpp:198
-msgid "Device unreachable"
+msgid "Phone unreachable"
 msgstr ""
 
 #: main.cpp:31 rc.cpp:55
@@ -73,11 +73,15 @@ msgstr ""
 msgid "Test the (network) connection to the phone"
 msgstr ""
 
-#: view/contactitemdelegate.cpp:100
-msgid "Number: "
+#. i18n: file: view/sendview_base.ui:28
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: view/contactitemdelegate.cpp:100 rc.cpp:45
+msgid "Number:"
 msgstr ""
 
-#: view/kdroidxmlgui.cpp:87
+#. i18n: file: view/prefs_base.ui:41
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_auto_sync)
+#: view/kdroidxmlgui.cpp:87 rc.cpp:30
 msgid "Synchronise"
 msgstr ""
 
@@ -114,25 +118,25 @@ msgstr ""
 #. i18n: file: kdroid.kcfg:9
 #. i18n: ectx: label, entry (ip_address), group (Preferences)
 #: rc.cpp:3
-msgid "IP Address of Android device"
+msgid "IP Address"
 msgstr ""
 
 #. i18n: file: kdroid.kcfg:13
 #. i18n: ectx: label, entry (port), group (Preferences)
 #: rc.cpp:6
-msgid "Port used for communication"
+msgid "Port"
 msgstr ""
 
 #. i18n: file: kdroid.kcfg:17
 #. i18n: ectx: label, entry (auto_sync), group (Preferences)
 #: rc.cpp:9
-msgid "Automatic Sync"
+msgid "Automatic Synchronization"
 msgstr ""
 
 #. i18n: file: kdroid.kcfg:21
 #. i18n: ectx: label, entry (timer_interval), group (Preferences)
 #: rc.cpp:12
-msgid "Sync Timer"
+msgid "Sync Timer (min)"
 msgstr ""
 
 #. i18n: file: kdroidui.rc:4
@@ -165,34 +169,22 @@ msgstr ""
 msgid "IP Address:"
 msgstr ""
 
-#. i18n: file: view/prefs_base.ui:41
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_auto_sync)
-#: rc.cpp:30
-msgid "Sync"
-msgstr ""
-
 #. i18n: file: view/prefs_base.ui:64
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: rc.cpp:33
-msgid "Automatic Sync:"
+msgid "Automatic Synchronization:"
 msgstr ""
 
 #. i18n: file: view/prefs_base.ui:71
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: rc.cpp:36
-msgid "Sync Timer (min)"
+msgid "Sync Timer (min):"
 msgstr ""
 
 #. i18n: file: view/prefs_base.ui:78
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: rc.cpp:39
 msgid "Port:"
-msgstr ""
-
-#. i18n: file: view/sendview_base.ui:28
-#. i18n: ectx: property (text), widget (QLabel, label)
-#: rc.cpp:45
-msgid "Number:"
 msgstr ""
 
 #. i18n: file: view/sendview_base.ui:67
