@@ -31,7 +31,8 @@ SMSList::SMSList ( QObject * parent ) :
         QAbstractListModel ( parent ),
         m_smslist ( new QList<SMSMessage>() ),
         m_filteredlist ( new QList<const SMSMessage*>() ),
-        m_filter ( "" )
+        m_filter ( "" ),
+        m_order(Qt::AscendingOrder)
 {
 
 }
@@ -64,7 +65,12 @@ SMSMessage SMSList::getAt ( int at )
     return m_smslist->at ( at );
 }
 
-
+void SMSList::sort(int column, Qt::SortOrder order)
+{
+    Q_UNUSED(column);
+    m_order=order;
+    filter(m_filter);
+}
 
 void SMSList::filter ( QString filter )
 {
@@ -88,12 +94,22 @@ void SMSList::sortedInsert ( const SMSMessage* message )
     for ( int i = 0;i<m_filteredlist->size();++i )
     {
         SMSMessage m = *m_filteredlist->at ( i );
-        if ( m<me )
-        {
-            beginInsertRows ( QModelIndex(),i,i );
-            m_filteredlist->insert ( i,message );
-            endInsertRows();
-            return;
+        if (m_order == Qt::DescendingOrder) {
+            if ( me<m )
+            {
+                beginInsertRows ( QModelIndex(),i,i );
+                m_filteredlist->insert ( i,message );
+                endInsertRows();
+                return;
+            }
+        } else {
+            if ( m<me )
+            {
+                beginInsertRows ( QModelIndex(),i,i );
+                m_filteredlist->insert ( i,message );
+                endInsertRows();
+                return;
+            }
         }
     }
     beginInsertRows ( QModelIndex(),m_filteredlist->size(),m_filteredlist->size() );

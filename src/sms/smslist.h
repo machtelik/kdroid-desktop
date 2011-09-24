@@ -33,6 +33,7 @@ public:
     ~SMSList();
     virtual int rowCount(const QModelIndex &index) const;
     virtual QVariant data(const QModelIndex &index, int role) const;
+    virtual void sort(int column, Qt::SortOrder order);
     int size();
     SMSMessage getAt(int at);
     enum SMSData {Body=0,Address=25,Id=27,Type=29,Time=30};
@@ -45,8 +46,9 @@ signals:
 private:
     QList<SMSMessage> *m_smslist;
     QList<const SMSMessage*> *m_filteredlist;
-    void sortedInsert(const SMSMessage *message);
+    void sortedInsert(const SMSMessage* message);
     QString m_filter;
+    Qt::SortOrder m_order;
 };
 
 #endif // SMSHANDLER_H
