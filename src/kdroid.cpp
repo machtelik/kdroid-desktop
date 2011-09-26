@@ -216,9 +216,11 @@ void KDroid::settingsChanged()
     }
     if ( Settings::auto_sync() )
     {
-        m_timer->setInterval ( Settings::timer_interval() *60000 );
-        m_timer->start();
-        SyncSms();
+        if(!m_timer->isActive()) {
+          m_timer->setInterval ( Settings::timer_interval() *60000 );
+          m_timer->start();
+          SyncSms();
+        }
     }
     else
     {
