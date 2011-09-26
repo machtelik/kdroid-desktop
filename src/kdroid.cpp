@@ -210,8 +210,12 @@ void KDroid::settingsChanged()
     m_clientport->setIp ( Settings::ip_address() );
     m_serverport->setPort(Settings::port());
     if (Settings::sms_sorting()==0) {
+        disconnect(m_smslist,SIGNAL(rowsInserted ( const QModelIndex &, int, int ) ), m_gui->getMainView()->getSmsListView(), SLOT(scrollToTop()));
+        connect(m_smslist,SIGNAL(rowsInserted ( const QModelIndex &, int, int ) ), m_gui->getMainView()->getSmsListView(), SLOT(scrollToBottom()));
         m_smslist->sort(0,Qt::AscendingOrder);
     } else {
+        disconnect(m_smslist,SIGNAL(rowsInserted ( const QModelIndex &, int, int ) ), m_gui->getMainView()->getSmsListView(), SLOT(scrollToBottom()));
+        connect(m_smslist,SIGNAL(rowsInserted ( const QModelIndex &, int, int ) ), m_gui->getMainView()->getSmsListView(), SLOT(scrollToTop()));
         m_smslist->sort(0,Qt::DescendingOrder);
     }
     if ( Settings::auto_sync() )
