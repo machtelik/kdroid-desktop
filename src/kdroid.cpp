@@ -209,6 +209,11 @@ void KDroid::settingsChanged()
     m_clientport->setPort ( Settings::port() );
     m_clientport->setIp ( Settings::ip_address() );
     m_serverport->setPort(Settings::port());
+    if (Settings::sms_sorting()==0) {
+        m_smslist->sort(0,Qt::AscendingOrder);
+    } else {
+        m_smslist->sort(0,Qt::DescendingOrder);
+    }
     if ( Settings::auto_sync() )
     {
         m_timer->setInterval ( Settings::timer_interval() *60000 );

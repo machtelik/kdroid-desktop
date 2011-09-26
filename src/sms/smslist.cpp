@@ -32,7 +32,7 @@ SMSList::SMSList ( QObject * parent ) :
         m_smslist ( new QList<SMSMessage>() ),
         m_filteredlist ( new QList<const SMSMessage*>() ),
         m_filter ( "" ),
-        m_order(Qt::AscendingOrder)
+        m_order(Qt::DescendingOrder)
 {
 
 }
@@ -94,7 +94,7 @@ void SMSList::sortedInsert ( const SMSMessage* message )
     for ( int i = 0;i<m_filteredlist->size();++i )
     {
         SMSMessage m = *m_filteredlist->at ( i );
-        if (m_order == Qt::DescendingOrder) {
+        if (m_order == Qt::AscendingOrder) {
             if ( me<m )
             {
                 beginInsertRows ( QModelIndex(),i,i );

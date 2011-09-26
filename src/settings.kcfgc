@@ -2,5 +2,6 @@
 File=kdroid.kcfg
 ClassName=Settings
 Singleton=true
-Mutators=ip_address,port,autoSync,timerInterval
+Mutators=true
+GlobalEnums=true
 # will create the necessary code for setting those variables

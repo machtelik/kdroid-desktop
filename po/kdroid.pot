@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-09-24 00:20+0200\n"
+"POT-Creation-Date: 2011-09-26 04:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,11 +37,11 @@ msgstr ""
 msgid "Phone unreachable"
 msgstr ""
 
-#: main.cpp:31 rc.cpp:55
+#: main.cpp:31 rc.cpp:67
 msgid "KDroid"
 msgstr ""
 
-#: main.cpp:31 rc.cpp:54
+#: main.cpp:31 rc.cpp:66
 msgid "Android Text Message manager"
 msgstr ""
 
@@ -75,13 +75,13 @@ msgstr ""
 
 #. i18n: file: view/sendview_base.ui:28
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: view/contactitemdelegate.cpp:100 rc.cpp:45
+#: view/contactitemdelegate.cpp:100 rc.cpp:57
 msgid "Number:"
 msgstr ""
 
 #. i18n: file: view/prefs_base.ui:41
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_auto_sync)
-#: view/kdroidxmlgui.cpp:87 rc.cpp:30
+#: view/kdroidxmlgui.cpp:87 rc.cpp:33
 msgid "Synchronise"
 msgstr ""
 
@@ -103,7 +103,7 @@ msgstr ""
 
 #. i18n: file: view/sendview_base.ui:14
 #. i18n: ectx: property (windowTitle), widget (QWidget, sendview_base)
-#: view/sendview.cpp:39 rc.cpp:42
+#: view/sendview.cpp:39 rc.cpp:54
 msgid "Send Text Message"
 msgstr ""
 
@@ -139,72 +139,96 @@ msgstr ""
 msgid "Sync Timer (min)"
 msgstr ""
 
+#. i18n: file: kdroid.kcfg:25
+#. i18n: ectx: label, entry (sms_sorting), group (Preferences)
+#: rc.cpp:15
+msgid "Text Message sorting"
+msgstr ""
+
 #. i18n: file: kdroidui.rc:4
 #. i18n: ectx: ToolBar (mainToolBar)
-#: rc.cpp:15
+#: rc.cpp:18
 msgid "Main Toolbar"
 msgstr ""
 
 #. i18n: file: kdroidui.rc:8
 #. i18n: ectx: Menu (file)
-#: rc.cpp:18
+#: rc.cpp:21
 msgid "File"
 msgstr ""
 
 #. i18n: file: kdroidui.rc:10
 #. i18n: ectx: Menu (export)
-#: rc.cpp:21
+#: rc.cpp:24
 msgid "Export as.."
 msgstr ""
 
 #. i18n: file: kdroidui.rc:15
 #. i18n: ectx: Menu (view)
-#: rc.cpp:24
+#: rc.cpp:27
 msgid "View"
 msgstr ""
 
 #. i18n: file: view/prefs_base.ui:17
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
-#: rc.cpp:27
+#: rc.cpp:30
 msgid "IP Address:"
 msgstr ""
 
 #. i18n: file: view/prefs_base.ui:64
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: rc.cpp:33
+#: rc.cpp:36
 msgid "Automatic Synchronization:"
 msgstr ""
 
 #. i18n: file: view/prefs_base.ui:71
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: rc.cpp:36
+#: rc.cpp:39
 msgid "Sync Timer (min):"
 msgstr ""
 
 #. i18n: file: view/prefs_base.ui:78
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: rc.cpp:39
+#: rc.cpp:42
 msgid "Port:"
+msgstr ""
+
+#. i18n: file: view/prefs_base.ui:99
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_sms_sorting)
+#: rc.cpp:45
+msgid "Oldest message first"
+msgstr ""
+
+#. i18n: file: view/prefs_base.ui:104
+#. i18n: ectx: property (text), item, widget (QComboBox, kcfg_sms_sorting)
+#: rc.cpp:48
+msgid "Latest message first"
+msgstr ""
+
+#. i18n: file: view/prefs_base.ui:112
+#. i18n: ectx: property (text), widget (QLabel, label_4)
+#: rc.cpp:51
+msgid "Text Message sorting:"
 msgstr ""
 
 #. i18n: file: view/sendview_base.ui:67
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: rc.cpp:48
+#: rc.cpp:60
 msgid "Message:"
 msgstr ""
 
 #. i18n: file: view/sendview_base.ui:106
 #. i18n: ectx: property (text), widget (KPushButton, SendButton)
-#: rc.cpp:51
+#: rc.cpp:63
 msgid "Send"
 msgstr ""
 
-#: rc.cpp:52
+#: rc.cpp:64
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
 msgstr ""
 
-#: rc.cpp:53
+#: rc.cpp:65
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
