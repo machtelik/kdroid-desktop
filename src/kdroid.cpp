@@ -30,6 +30,7 @@
 #include "settings.h"
 
 #include "view/kdroidview.h"
+#include <qprocess.h>
 
 KDroid::KDroid():
         m_timer ( new QTimer() ),
@@ -223,12 +224,23 @@ void KDroid::settingsChanged()
         if(!m_timer->isActive()) {
           m_timer->setInterval ( Settings::timer_interval() *60000 );
           m_timer->start();
-          SyncSms();
+	  if(!Settings::run_command()) {
+	      SyncSms();
+	  }
         }
     }
     else
     {
         m_timer->stop();
+    }
+    if(Settings::run_command()) {
+	QString cmd = Settings::command().arg(Settings::port());
+	QProcess *proc = new QProcess( this );
+	if ( Settings::auto_sync() ) {
+	    connect(proc, SIGNAL(finished(int)), this, SLOT(SyncSms()));
+	}
+	connect(proc, SIGNAL(finished(int)), proc, SLOT(deleteLater()));
+	proc->start( cmd );
     }
 
 }

@@ -25,5 +25,13 @@
             <label>Text Message sorting</label>
             <default>1</default>
     </entry>
+    <entry name="run_command" type="bool">
+            <label>Run command on startup</label>
+            <default>false</default>
+    </entry>
+    <entry name="command" type="String">
+	    <label>command</label>
+	    <default>adb start-server; adb forward tcp:%1 tcp:%1</default>
+    </entry>
   </group>
 </kcfg>

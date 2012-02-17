@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>353</width>
-    <height>156</height>
+    <width>354</width>
+    <height>184</height>
    </rect>
   </property>
   <layout class="QGridLayout">
@@ -42,7 +42,7 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="1">
+   <item row="7" column="1">
     <spacer>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -110,6 +110,34 @@
     <widget class="QLabel" name="label_4">
      <property name="text">
       <string>Text Message sorting:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string>Run command:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QCheckBox" name="kcfg_run_command">
+     <property name="text">
+      <string>Run on launch</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="label_6">
+     <property name="text">
+      <string>Command:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QLineEdit" name="kcfg_command">
+     <property name="toolTip">
+      <string>%1 = Port</string>
      </property>
     </widget>
    </item>
